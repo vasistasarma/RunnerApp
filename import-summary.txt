@@ -1,0 +1,98 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .idea\
+* .idea\.name
+* .idea\compiler.xml
+* .idea\copyright\
+* .idea\copyright\profiles_settings.xml
+* .idea\encodings.xml
+* .idea\libraries\
+* .idea\libraries\android_support_v4.xml
+* .idea\libraries\google_play_services.xml
+* .idea\misc.xml
+* .idea\modules.xml
+* .idea\scopes\
+* .idea\scopes\scope_settings.xml
+* .idea\vcs.xml
+* .idea\workspace.xml
+* FudfillRunner.iml
+* ic_launcher-web.png
+* out\
+* out\production\
+* out\production\FudfillRunner\
+* out\production\FudfillRunner\FudfillRunner.apk
+* out\production\FudfillRunner\com\
+* out\production\FudfillRunner\com\fudfill\
+* out\production\FudfillRunner\com\fudfill\runner\
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\BuildConfig.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\EscalateFragment.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\ItemsListFragment.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\MainActivity$1.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\MainActivity$SlideMenuClickListener.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\MainActivity.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\Manifest$permission.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\Manifest.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\PickupFragment.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$array.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$attr.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$color.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$dimen.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$drawable.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$id.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$layout.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$menu.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$string.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R$style.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\R.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\RouteMapFragment.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\RunnerMapFragment.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\WhatsHotFragment.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\adapter\
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\adapter\NavDrawerListAdapter.class
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\model\
+* out\production\FudfillRunner\com\fudfill\runner\slidingmenu\model\NavDrawerItem.class
+* proguard-project.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:21.0.3
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app\src\main\AndroidManifest.xml
+* res\ => app\src\main\res\
+* src\ => app\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

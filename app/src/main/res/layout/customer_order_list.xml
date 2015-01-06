@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        android:layout_width="52dp"
+        android:layout_height="57dp"
+        android:text=""
+        android:id="@+id/item_selected"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:checked="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:enabled="true"
+        android:focusableInTouchMode="true"
+        />
+    <TextView
+        android:text="itemname"
+        android:id="@+id/item_name"
+        android:background="@color/list_background"
+        android:gravity="center_vertical"
+        android:paddingRight="20dp"
+        android:layout_height="match_parent"
+        android:layout_width="140dp  "
+        android:layout_below="@+id/item_selected"
+        android:layout_alignTop="@+id/item_selected"
+        android:layout_toRightOf="@+id/item_selected"
+        android:layout_toEndOf="@+id/item_selected"
+        android:layout_alignBottom="@+id/item_selected" />
+
+    <EditText
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_qty"
+        android:textIsSelectable="true"
+        android:background="@color/list_background"
+        android:gravity="center_vertical"
+        android:paddingRight="20dp"
+        android:layout_alignTop="@+id/item_name"
+        android:layout_toRightOf="@+id/item_name"
+        android:layout_toEndOf="@+id/item_name"
+        android:layout_alignBottom="@+id/item_name" />
+
+    <EditText
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_price"
+        android:background="@color/list_background"
+        android:gravity="center_vertical"
+        android:paddingRight="20dp"
+        android:layout_alignBottom="@+id/item_qty"
+        android:layout_alignTop="@+id/item_qty"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/item_qty"
+        android:layout_toEndOf="@+id/item_qty" />
+
+</RelativeLayout>
