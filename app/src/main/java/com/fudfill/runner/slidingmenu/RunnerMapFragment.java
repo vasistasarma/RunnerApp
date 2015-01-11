@@ -2,6 +2,8 @@ package com.fudfill.runner.slidingmenu;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,12 +20,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+
 
 public class RunnerMapFragment extends Fragment {
 
     ProgressDialog pDialog;
     List<Runner> mRunnersList;
+    private ArrayList<MarkerOptions> buddyLocOptions = new ArrayList<MarkerOptions>();
+    private Bitmap markerImage;
+    private float oldZoom=0;
+    private GoogleMap gMap;
+    private static final int INTERVAL = 25;
+    private static final int MAP_ZOOM_LEVEL = 4;
 
     private static String url = "http://api.fudfill.com/runners/";
 
@@ -40,13 +58,25 @@ public class RunnerMapFragment extends Fragment {
 
         mRunnersList = new ArrayList<Runner>();
 	}
-
+    private boolean initializeMap(){
+        if(gMap == null){
+            MapFragment mRunnerMapFragment = (MapFragment)getFragmentManager().findFragmentById(R.id.runner_map_fragment);
+            gMap =mRunnerMapFragment.getMap();
+        }
+        return gMap != null;
+    }
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		View rootView = inflater.inflate(R.layout.fragment_runnermap,
 				container, false);
+        markerImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_runner);
+        if(initializeMap()){
+            CameraUpdate runnerPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(28.6000264, 77.0532981), 13);
+            gMap.moveCamera(runnerPosition);
+            gMap.addMarker(new MarkerOptions().position(new LatLng(28.6000264,77.0532981)).title("Runner 1").anchor(.5f, .5f).icon(BitmapDescriptorFactory.fromBitmap(markerImage)));
+        }
 
 		return rootView;
 	}
