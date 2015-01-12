@@ -5,6 +5,7 @@ package com.fudfill.runner.slidingmenu.common;
  */
 public class Runner {
     private String runnerId;
+    private String name;
     private String emailId;
     private String mobile;
     private String latitude;
@@ -16,6 +17,14 @@ public class Runner {
 
     public void setRunnerId(String runnerId) {
         this.runnerId = runnerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmailId() {

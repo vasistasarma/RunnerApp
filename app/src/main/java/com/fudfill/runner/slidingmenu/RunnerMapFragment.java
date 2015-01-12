@@ -11,25 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fudfill.runner.slidingmenu.adapter.CustomerOrderDetails;
 import com.fudfill.runner.slidingmenu.common.Runner;
 import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
+import java.util.List;
 
 
 public class RunnerMapFragment extends Fragment {
@@ -42,13 +39,14 @@ public class RunnerMapFragment extends Fragment {
     private GoogleMap gMap;
     private static final int INTERVAL = 25;
     private static final int MAP_ZOOM_LEVEL = 4;
+    private static String TAG="RunnerMapFragment";
 
-    private static String url = "http://api.fudfill.com/runners/";
+    private static String url = "http://example.com/runners";
 
     // JSON Node names
     private static final String TAG_RUNNERS = "runners";
     private static final String TAG_NAME = "name";
-    private static final String TAG_EMAIL = "email";
+    private static final String TAG_EMAIL = "emailId";
     private static final String TAG_LOCATION = "location";
     private static final String TAG_LATITUDE = "latitude";
     private static final String TAG_LONGITUDE = "longitude";
@@ -73,9 +71,8 @@ public class RunnerMapFragment extends Fragment {
 				container, false);
         markerImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_runner);
         if(initializeMap()){
-            CameraUpdate runnerPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(28.6000264, 77.0532981), 13);
-            gMap.moveCamera(runnerPosition);
-            gMap.addMarker(new MarkerOptions().position(new LatLng(28.6000264,77.0532981)).title("Runner 1").anchor(.5f, .5f).icon(BitmapDescriptorFactory.fromBitmap(markerImage)));
+            new GetRunnersLocation().execute(null, null, null);
+
         }
 
 		return rootView;
@@ -93,7 +90,7 @@ public class RunnerMapFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(RunnerMapFragment.this.getActivity().getApplicationContext());
+            pDialog = new ProgressDialog(getActivity());
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -108,12 +105,35 @@ public class RunnerMapFragment extends Fragment {
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
 
-            Log.d("Response: ", "> " + jsonStr);
+            Log.d(TAG,"Response: > " + jsonStr);
+
+
+                jsonStr = "{\"runners\": [\n" +
+                        "{\n" +
+                        "emailId: \"praveen.thota@gmail.com\",\n" +
+                        "name: \"Praveen\",\n" +
+                        "mobile: \"8989898989\",\n" +
+                        "location: {\n" +
+                        "latitude: 28.6000264,\n" +
+                        "longitude: 77.0532010\n" +
+                        "}\n" +
+                        "},\n" +
+                        "{\n" +
+                        "emailId: \"vasista@gmail.com\",\n" +
+                        "name: \"Vasista\",\n" +
+                        "mobile: \"8989898989\",\n" +
+                        "\"location\": {\n" +
+                        "latitude: 28.6000264,\n" +
+                        "longitude: 78.0532981\n" +
+                        "}\n" +
+                        "}\n" +
+                        "]" +
+                        "}";
 
             if (jsonStr != null) {
                 try {
 
-                    List<CustomerOrderDetails> tCustomerOrderDetails = new ArrayList<CustomerOrderDetails>();
+
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
@@ -137,6 +157,7 @@ public class RunnerMapFragment extends Fragment {
                         tRunner.setLatitude(latitude);
                         tRunner.setLongitude(longitude);
                         tRunner.setMobile(mobile);
+                        tRunner.setName(name);
                         mRunnersList.add(tRunner);
 
                     }
@@ -144,7 +165,7 @@ public class RunnerMapFragment extends Fragment {
                     e.printStackTrace();
                 }
             } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
+                Log.e(TAG, "Couldn't get any data from the url");
             }
 
             return null;
@@ -156,7 +177,31 @@ public class RunnerMapFragment extends Fragment {
             // Dismiss the progress dialog
             if (pDialog.isShowing())
                 pDialog.dismiss();
-            // Load the map with the runners location
+
+            if (mRunnersList != null && !mRunnersList.isEmpty()) {
+                 for(int i=0;i<mRunnersList.size();i++)
+                 {
+                     Runner tRunner = mRunnersList.get(i);
+                     if(tRunner !=null)
+                     {
+                         Log.d(TAG,"Runner: "+i+" : "+tRunner);
+                         double latitude = Double.parseDouble(tRunner.getLatitude());
+                         double longitude =Double.parseDouble(tRunner.getLongitude());
+                         CameraUpdate runnerPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 7);
+                         gMap.moveCamera(runnerPosition);
+                         gMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).
+                                 title(tRunner.getName()+", "+tRunner.getMobile()).anchor(.5f, .5f).
+                                 icon(BitmapDescriptorFactory.fromBitmap(markerImage)));
+                     }
+                 }
+
+            } else {
+                // Load the map with the runners location
+                Log.d(TAG,"Runners List is empty ");
+                CameraUpdate runnerPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(28.6000264, 77.0532981), 13);
+                gMap.moveCamera(runnerPosition);
+                gMap.addMarker(new MarkerOptions().position(new LatLng(28.6000264, 77.0532981)).title("Runner 1").anchor(.5f, .5f).icon(BitmapDescriptorFactory.fromBitmap(markerImage)));
+            }
         }
 
     }
