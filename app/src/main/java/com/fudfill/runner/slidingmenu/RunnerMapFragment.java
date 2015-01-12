@@ -41,7 +41,7 @@ public class RunnerMapFragment extends Fragment {
     private static final int MAP_ZOOM_LEVEL = 4;
     private static String TAG="RunnerMapFragment";
 
-    private static String url = "http://example.com/runners";
+    private static String url = "http://192.168.1.64:8080/fudfildelivery/testserver?file=runners";
 
     // JSON Node names
     private static final String TAG_RUNNERS = "runners";
@@ -108,27 +108,6 @@ public class RunnerMapFragment extends Fragment {
             Log.d(TAG,"Response: > " + jsonStr);
 
 
-                jsonStr = "{\"runners\": [\n" +
-                        "{\n" +
-                        "emailId: \"praveen.thota@gmail.com\",\n" +
-                        "name: \"Praveen\",\n" +
-                        "mobile: \"8989898989\",\n" +
-                        "location: {\n" +
-                        "latitude: 28.6000264,\n" +
-                        "longitude: 77.0532010\n" +
-                        "}\n" +
-                        "},\n" +
-                        "{\n" +
-                        "emailId: \"vasista@gmail.com\",\n" +
-                        "name: \"Vasista\",\n" +
-                        "mobile: \"8989898989\",\n" +
-                        "\"location\": {\n" +
-                        "latitude: 28.6000264,\n" +
-                        "longitude: 78.0532981\n" +
-                        "}\n" +
-                        "}\n" +
-                        "]" +
-                        "}";
 
             if (jsonStr != null) {
                 try {
