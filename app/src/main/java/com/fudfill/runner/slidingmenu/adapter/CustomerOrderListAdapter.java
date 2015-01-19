@@ -1,13 +1,20 @@
 package com.fudfill.runner.slidingmenu.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fudfill.runner.slidingmenu.R;
@@ -75,15 +82,29 @@ public CustomerOrderListAdapter(Context customerItemList){
             v = inflater.inflate(R.layout.customer_waypoints_list, parent, false);
         }
 
-        TextView orderOfDelivery = (TextView)v.findViewById(R.id.customer_waypoint_order);
-        TextView wayPointName = (TextView)v.findViewById(R.id.customer_waypoint_name);
-        TextView priceToCollect = (TextView) v.findViewById(R.id.customer_waypoint_price);
+        TextView txtOrderOfDelivery = (TextView)v.findViewById(R.id.customer_waypoint_order);
+        TextView txtWayPointName = (TextView)v.findViewById(R.id.customer_waypoint_name);
+        TextView txtPriceToCollect = (TextView) v.findViewById(R.id.customer_waypoint_price);
+        final ImageButton imgbtnItemDeliveryStatus = (ImageButton)v.findViewById(R.id.customer_waypoint_delivery_status);
+        ImageButton imgbtnItemNotDelivered = (ImageButton)v.findViewById(R.id.customer_waypoint_not_delivered);
+
+        imgbtnItemDeliveryStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgbtnItemDeliveryStatus.setImageResource(R.drawable.item_delivered);
+                Toast.makeText(context, "Item Marked Delivered", Toast.LENGTH_SHORT).show();
+                //update the delivery status flag to server here..
+                // set or unset the flag..for now there is only setting of flag in here
+            }
+        });
 
         CustomerWaypointDetails waypointDetails = wayPointsList.get(groupPosition);
 
-        orderOfDelivery.setText(waypointDetails.getWaypointOrder());
-        wayPointName.setText(waypointDetails.getWayPointName());
-        priceToCollect.setText(waypointDetails.getWayPointPrice());
+        txtOrderOfDelivery.setText(waypointDetails.getWaypointOrder());
+        txtWayPointName.setText(waypointDetails.getWayPointName());
+        txtPriceToCollect.setText(waypointDetails.getWayPointPrice());
+        imgbtnItemDeliveryStatus.setFocusable(false);
+        imgbtnItemNotDelivered.setFocusable(false);
 
        return v;
     }
@@ -99,6 +120,8 @@ public CustomerOrderListAdapter(Context customerItemList){
         TextView itemName = (TextView)v.findViewById(R.id.item_name);
         EditText itemQty = (EditText)v.findViewById(R.id.item_qty);
         EditText itemPrice = (EditText)v.findViewById(R.id.item_price);
+
+
         CustomerOrderDetails orderDetails = wayPointsList.get(groupPosition).getItemList().get(childPosition);
         itemSelected.setEnabled(true);
         itemName.setText(orderDetails.getItemName());
