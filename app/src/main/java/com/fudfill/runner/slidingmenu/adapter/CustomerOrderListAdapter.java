@@ -85,6 +85,7 @@ public CustomerOrderListAdapter(Context customerItemList){
         TextView txtOrderOfDelivery = (TextView)v.findViewById(R.id.customer_waypoint_order);
         TextView txtWayPointName = (TextView)v.findViewById(R.id.customer_waypoint_name);
         TextView txtPriceToCollect = (TextView) v.findViewById(R.id.customer_waypoint_price);
+        TextView txtCustomerAddress = (TextView)v.findViewById(R.id.customer_waypoint_address);
         final ImageButton imgbtnItemDeliveryStatus = (ImageButton)v.findViewById(R.id.customer_waypoint_delivery_status);
         ImageButton imgbtnItemNotDelivered = (ImageButton)v.findViewById(R.id.customer_waypoint_not_delivered);
 
@@ -103,6 +104,8 @@ public CustomerOrderListAdapter(Context customerItemList){
         txtOrderOfDelivery.setText(waypointDetails.getWaypointOrder());
         txtWayPointName.setText(waypointDetails.getWayPointName());
         txtPriceToCollect.setText(waypointDetails.getWayPointPrice());
+        txtCustomerAddress.setText(waypointDetails.getWayPointAddress());
+
         imgbtnItemDeliveryStatus.setFocusable(false);
         imgbtnItemNotDelivered.setFocusable(false);
 

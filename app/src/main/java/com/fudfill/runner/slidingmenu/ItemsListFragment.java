@@ -79,18 +79,18 @@ public class ItemsListFragment extends Fragment {
     private void initData(){
 
         wayPoints = new ArrayList<CustomerWaypointDetails>();
-        CustomerWaypointDetails wayPoint1 = createWaypoint("1", "Vasista", "300");
+        CustomerWaypointDetails wayPoint1 = createWaypoint("1", "Vasista", "300", "2211, N 1st Street, SanJose");
         wayPoint1.setItemList(createItems("Item 1", 2, 100));
 
-        CustomerWaypointDetails wayPoint2 = createWaypoint("2", "Vivek", "1200");
+        CustomerWaypointDetails wayPoint2 = createWaypoint("2", "Vivek", "1200", "141, Saratoga Avenue, Santa Clara");
         wayPoint2.setItemList(createItems("Item 2", 4, 100));
 
 
-        CustomerWaypointDetails wayPoint3 = createWaypoint("3", "Manish", "1800");
+        CustomerWaypointDetails wayPoint3 = createWaypoint("3", "Manish", "1800", "10853 North Field Square, Cupertino");
         wayPoint3.setItemList(createItems("Item 3", 3, 100));
 
 
-        CustomerWaypointDetails wayPoint4 = createWaypoint("4", "Nikhil", "3000");
+        CustomerWaypointDetails wayPoint4 = createWaypoint("4", "Nikhil", "3000", "555 e wahintong avenue, Sunnyvale");
         wayPoint4.setItemList(createItems("Item 4", 2, 100));
 
         wayPoints.add(wayPoint1);
@@ -99,8 +99,8 @@ public class ItemsListFragment extends Fragment {
         wayPoints.add(wayPoint4);
 
    }
-    private CustomerWaypointDetails createWaypoint(String order, String name, String price) {
-        return new CustomerWaypointDetails(order, name, price);
+    private CustomerWaypointDetails createWaypoint(String order, String name, String price, String address) {
+        return new CustomerWaypointDetails(order, name, price, address);
     }
     private List<CustomerOrderDetails> createItems(String itemName, int itemQty, int itemPrice) {
         List<CustomerOrderDetails> result = new ArrayList<CustomerOrderDetails>();
@@ -201,7 +201,7 @@ public class ItemsListFragment extends Fragment {
 
                         }
                         CustomerWaypointDetails tCustomerOrder = new CustomerWaypointDetails(order_id,name,
-                                ""+totalOrderCost);
+                                ""+totalOrderCost,"");
                         // Set the customer list
                         tCustomerOrder.setItemList(tCustomerOrderList);
 

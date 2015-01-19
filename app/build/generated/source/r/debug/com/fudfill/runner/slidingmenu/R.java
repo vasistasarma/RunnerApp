@@ -454,10 +454,10 @@ containing a value of this type.
         public static final int classic=0x7f0c0014;
         public static final int counter=0x7f0c0029;
         public static final int customerItemList=0x7f0c002b;
-        public static final int customer_waypoint_delivery_status=0x7f0c0024;
+        public static final int customer_waypoint_address=0x7f0c0024;
+        public static final int customer_waypoint_delivery_status=0x7f0c0026;
         public static final int customer_waypoint_name=0x7f0c0022;
         public static final int customer_waypoint_not_delivered=0x7f0c0025;
-        public static final int customer_waypoint_not_delivered_spinner=0x7f0c0026;
         public static final int customer_waypoint_order=0x7f0c0021;
         public static final int customer_waypoint_price=0x7f0c0023;
         public static final int donate_with_google=0x7f0c0013;
