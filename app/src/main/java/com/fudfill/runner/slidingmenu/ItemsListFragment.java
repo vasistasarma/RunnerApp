@@ -100,8 +100,8 @@ public class ItemsListFragment extends Fragment {
         new GetOrdersList().execute(null, null, null);
 
    }
-    private CustomerWaypointDetails createWaypoint(String order, String name, String price) {
-        return new CustomerWaypointDetails(order, name, price);
+    private CustomerWaypointDetails createWaypoint(String order, String name, String price,String address) {
+        return new CustomerWaypointDetails(order, name, price, address);
     }
     private List<CustomerOrderDetails> createItems(String itemName, int itemQty, int itemPrice) {
         List<CustomerOrderDetails> result = new ArrayList<CustomerOrderDetails>();
@@ -205,7 +205,7 @@ public class ItemsListFragment extends Fragment {
 
                         }
                         CustomerWaypointDetails tCustomerOrder = new CustomerWaypointDetails(order_id,name,
-                                ""+totalOrderCost);
+                                ""+totalOrderCost,address);
                         // Set the customer list
                         tCustomerOrder.setItemList(tCustomerOrderList);
 
