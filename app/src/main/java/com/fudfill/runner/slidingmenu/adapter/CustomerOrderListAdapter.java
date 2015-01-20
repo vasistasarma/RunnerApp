@@ -2,6 +2,7 @@ package com.fudfill.runner.slidingmenu.adapter;
 
 import android.content.Context;
 import android.media.Image;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fudfill.runner.slidingmenu.R;
+
+import junit.framework.TestCase;
 
 /**
  * Created by Sowmya on 1/4/2015.
@@ -86,6 +89,9 @@ public CustomerOrderListAdapter(Context customerItemList){
         TextView txtWayPointName = (TextView)v.findViewById(R.id.customer_waypoint_name);
         TextView txtPriceToCollect = (TextView) v.findViewById(R.id.customer_waypoint_price);
         TextView txtCustomerAddress = (TextView)v.findViewById(R.id.customer_waypoint_address);
+        TextView txtCustomerPhone = (TextView)v.findViewById(R.id.customer_waypoint_phone);
+        txtCustomerAddress.setMovementMethod(new ScrollingMovementMethod());
+        txtCustomerAddress.setFocusable(false);
         final ImageButton imgbtnItemDeliveryStatus = (ImageButton)v.findViewById(R.id.customer_waypoint_delivery_status);
         ImageButton imgbtnItemNotDelivered = (ImageButton)v.findViewById(R.id.customer_waypoint_not_delivered);
 
@@ -105,9 +111,11 @@ public CustomerOrderListAdapter(Context customerItemList){
         txtWayPointName.setText(waypointDetails.getWayPointName());
         txtPriceToCollect.setText(waypointDetails.getWayPointPrice());
         txtCustomerAddress.setText(waypointDetails.getWayPointAddress());
+        txtCustomerPhone.setText(waypointDetails.getWayPointPhone());
 
         imgbtnItemDeliveryStatus.setFocusable(false);
         imgbtnItemNotDelivered.setFocusable(false);
+        txtCustomerPhone.setFocusable(false);
 
        return v;
     }

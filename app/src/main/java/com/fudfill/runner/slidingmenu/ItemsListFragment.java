@@ -100,8 +100,8 @@ public class ItemsListFragment extends Fragment {
         new GetOrdersList().execute(null, null, null);
 
    }
-    private CustomerWaypointDetails createWaypoint(String order, String name, String price,String address) {
-        return new CustomerWaypointDetails(order, name, price, address);
+    private CustomerWaypointDetails createWaypoint(String order, String name, String price,String address, String phone) {
+        return new CustomerWaypointDetails(order, name, price, address,phone );
     }
     private List<CustomerOrderDetails> createItems(String itemName, int itemQty, int itemPrice) {
         List<CustomerOrderDetails> result = new ArrayList<CustomerOrderDetails>();
@@ -169,8 +169,8 @@ public class ItemsListFragment extends Fragment {
                         String latitude = location.getString(TAG_LATITUDE);
                         String longitude = location.getString(TAG_LONGITUDE);
                         // Phone node is JSON Object
-                       // JSONObject phone = c.getJSONObject(TAG_PHONE);
-                        //String mobile = phone.getString(TAG_PHONE_MOBILE);
+                       JSONObject phone = c.getJSONObject(TAG_PHONE);
+                       String mobile = phone.getString(TAG_PHONE_MOBILE);
                         //String home = phone.getString(TAG_PHONE_HOME);
                         //String office = phone.getString(TAG_PHONE_OFFICE);
 
@@ -181,7 +181,7 @@ public class ItemsListFragment extends Fragment {
                         OrderMap.put(TAG_ORDER_ID, order_id);
                         OrderMap.put(TAG_NAME, name);
                         OrderMap.put(TAG_EMAIL, email);
-//                        OrderMap.put(TAG_PHONE_MOBILE, mobile);
+                        OrderMap.put(TAG_PHONE_MOBILE, mobile);
 
 
                         // Getting JSON Array node
@@ -205,7 +205,7 @@ public class ItemsListFragment extends Fragment {
 
                         }
                         CustomerWaypointDetails tCustomerOrder = new CustomerWaypointDetails(order_id,name,
-                                ""+totalOrderCost,address);
+                                ""+totalOrderCost,address, mobile);
                         // Set the customer list
                         tCustomerOrder.setItemList(tCustomerOrderList);
 

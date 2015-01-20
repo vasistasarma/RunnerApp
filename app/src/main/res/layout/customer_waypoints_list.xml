@@ -27,12 +27,14 @@
         android:layout_toLeftOf="@+id/customer_waypoint_price"
         android:layout_toStartOf="@+id/customer_waypoint_price" />
     <TextView
-        android:layout_width="120dp"
+        android:layout_width="60dp"
         android:layout_height="35dp"
         android:text="customerAddress"
         android:autoLink="map"
         android:linksClickable="true"
         android:scrollHorizontally="true"
+        android:maxLines="1"
+        android:scrollbars="vertical"
         android:id="@+id/customer_waypoint_address"
         android:gravity="center_vertical"
         android:background="@color/list_background"
@@ -44,7 +46,29 @@
         android:singleLine="true"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
-        android:layout_toLeftOf="@+id/customer_waypoint_not_delivered" />
+        android:layout_alignRight="@+id/customer_waypoint_name"
+        android:layout_alignEnd="@+id/customer_waypoint_name" />
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:text="customerPhoneNumber"
+        android:autoLink="phone"
+        android:linksClickable="true"
+        android:scrollHorizontally="true"
+        android:maxLines="1"
+        android:scrollbars="vertical"
+        android:id="@+id/customer_waypoint_phone"
+        android:gravity="center_vertical"
+        android:background="@color/list_background"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/customer_waypoint_name"
+        android:layout_toRightOf="@+id/customer_waypoint_address"
+        android:clickable="true"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="50dp"
