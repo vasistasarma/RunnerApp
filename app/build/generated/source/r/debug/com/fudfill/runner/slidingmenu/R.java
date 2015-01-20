@@ -442,7 +442,7 @@ containing a value of this type.
         public static final int powered_by_google_light=0x7f020036;
     }
     public static final class id {
-        public static final int action_settings=0x7f0c002f;
+        public static final int action_settings=0x7f0c002e;
         public static final int adjust_height=0x7f0c0000;
         public static final int adjust_width=0x7f0c0001;
         public static final int book_now=0x7f0c0010;
@@ -468,8 +468,6 @@ containing a value of this type.
         public static final int holo_light=0x7f0c0008;
         public static final int hybrid=0x7f0c0003;
         public static final int icon=0x7f0c0027;
-        public static final int item_btn_delivered=0x7f0c002d;
-        public static final int item_btn_notdelivered=0x7f0c002e;
         public static final int item_name=0x7f0c001b;
         public static final int item_price=0x7f0c001d;
         public static final int item_qty=0x7f0c001c;
@@ -481,7 +479,8 @@ containing a value of this type.
         public static final int none=0x7f0c0002;
         public static final int normal=0x7f0c0004;
         public static final int production=0x7f0c0009;
-        public static final int runner_map_fragment=0x7f0c002c;
+        public static final int route_map_fragment=0x7f0c002c;
+        public static final int runner_map_fragment=0x7f0c002d;
         public static final int sandbox=0x7f0c000a;
         public static final int satellite=0x7f0c0005;
         public static final int selectionDetails=0x7f0c000d;
@@ -506,7 +505,6 @@ containing a value of this type.
         public static final int fragment_routemap=0x7f030008;
         public static final int fragment_runnermap=0x7f030009;
         public static final int fragment_whats_hot=0x7f03000a;
-        public static final int item_delivery_status=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

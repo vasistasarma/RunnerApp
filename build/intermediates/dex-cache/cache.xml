@@ -2,32 +2,32 @@
 <items version="2" >
 
     <item
-        jar="C:\Vasista\Fudfill\FudfillRunner\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
-        <dex dex="C:\Vasista\Fudfill\FudfillRunner\app\build\intermediates\pre-dexed\debug\classes-309d3b58b4ff0f02b5cbb4a7efd44c2288e75533.jar" />
-    </item>
-    <item
-        jar="C:\Users\Sowmya\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Vasista\Fudfill\FudfillRunner\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-fff1a90133b5f91125443d82aedb4a76c5bff8ce.jar" />
-    </item>
-    <item
-        jar="C:\Vasista\Fudfill\FudfillRunner\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="C:\Vasista\Fudfill\Mobile App\RunnerApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Vasista\Fudfill\FudfillRunner\app\build\intermediates\pre-dexed\debug\classes-6438c90ec077ad38890e3613a4101cf5ffb3515d.jar" />
+        <dex dex="C:\Vasista\Fudfill\Mobile App\RunnerApp\app\build\intermediates\pre-dexed\debug\classes-7929c190958994e7c5b6344f3db6543cf76de00b.jar" />
     </item>
     <item
-        jar="C:\Vasista\Fudfill\FudfillRunner\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jar="C:\Vasista\Fudfill\Mobile App\RunnerApp\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\6.5.87\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
+        <dex dex="C:\Vasista\Fudfill\Mobile App\RunnerApp\app\build\intermediates\pre-dexed\debug\classes-681eed928e8ac97532896a6c10a08cbbeb2e7ea9.jar" />
+    </item>
+    <item
+        jar="C:\Vasista\Fudfill\Mobile App\RunnerApp\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Vasista\Fudfill\FudfillRunner\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-1285009bfea1cdb0f91959ae1cd4311f4624367e.jar" />
+        <dex dex="C:\Vasista\Fudfill\Mobile App\RunnerApp\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-8c5224a221858ea856b796037f48ffa1fc246398.jar" />
+    </item>
+    <item
+        jar="C:\Vasista\AndroidSDK\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Vasista\Fudfill\Mobile App\RunnerApp\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-930b173129d3ee1816252062c089433f9b163bd6.jar" />
     </item>
 
 </items>
