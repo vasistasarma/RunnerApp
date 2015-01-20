@@ -13,12 +13,14 @@ public class CustomerWaypointDetails implements Serializable {
     private String wayPointOrder;
     private String wayPointName;
     private String wayPointPrice;
+    private String wayPointAddress;
     private List<CustomerOrderDetails> itemList = new ArrayList<CustomerOrderDetails>();
 
-    public CustomerWaypointDetails(String wayPointOrder, String wayPointName, String wayPointPrice){
+    public CustomerWaypointDetails(String wayPointOrder, String wayPointName, String wayPointPrice, String wayPointAddress){
         this.wayPointOrder=wayPointOrder;
         this.wayPointName=wayPointName;
         this.wayPointPrice=wayPointPrice;
+        this.wayPointAddress = wayPointAddress;
     }
     public String getWaypointOrder(){
         return this.wayPointOrder;
@@ -43,6 +45,12 @@ public class CustomerWaypointDetails implements Serializable {
     }
     public void setItemList(List<CustomerOrderDetails> itemList){
         this.itemList=itemList;
+    }
+    public String getWayPointAddress(){
+        return  this.wayPointAddress;
+    }
+    public void setWayPointAddress(String wayPointAddress){
+        this.wayPointAddress=wayPointAddress;
     }
 
 }
