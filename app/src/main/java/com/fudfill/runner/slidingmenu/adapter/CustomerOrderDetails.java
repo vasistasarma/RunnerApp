@@ -7,8 +7,8 @@ public class CustomerOrderDetails implements Serializable {
     private String itemName;
     private int quantity;
     private int price;
-    public CustomerOrderDetails(String item, int quantity, int price){
-        this.itemName = item;
+    public CustomerOrderDetails(String itemName, int quantity, int price){
+        this.itemName = itemName;
         this.quantity=quantity;
         this.price=price;
     }
