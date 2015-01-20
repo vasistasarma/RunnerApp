@@ -27,7 +27,7 @@ public class ItemsListFragment extends Fragment {
     private List<CustomerWaypointDetails> wayPoints;
 
     // URL to get contacts JSON
-    private static String url = "http://api.androidhive.info/contacts/";
+    private static String url = "http://192.168.1.64:8080/fudfildelivery/testserver?file=orders";
     CustomerOrderListAdapter custOrderAdapter;
 
 
@@ -79,27 +79,28 @@ public class ItemsListFragment extends Fragment {
     private void initData(){
 
         wayPoints = new ArrayList<CustomerWaypointDetails>();
-        CustomerWaypointDetails wayPoint1 = createWaypoint("1", "Vasista", "300", "2211, N 1st Street, SanJose");
+        /*CustomerWaypointDetails wayPoint1 = createWaypoint("1", "Vasista", "300");
         wayPoint1.setItemList(createItems("Item 1", 2, 100));
 
-        CustomerWaypointDetails wayPoint2 = createWaypoint("2", "Vivek", "1200", "141, Saratoga Avenue, Santa Clara");
+        CustomerWaypointDetails wayPoint2 = createWaypoint("2", "Vivek", "1200");
         wayPoint2.setItemList(createItems("Item 2", 4, 100));
 
 
-        CustomerWaypointDetails wayPoint3 = createWaypoint("3", "Manish", "1800", "10853 North Field Square, Cupertino");
+        CustomerWaypointDetails wayPoint3 = createWaypoint("3", "Manish", "1800");
         wayPoint3.setItemList(createItems("Item 3", 3, 100));
 
 
-        CustomerWaypointDetails wayPoint4 = createWaypoint("4", "Nikhil", "3000", "555 e wahintong avenue, Sunnyvale");
+        CustomerWaypointDetails wayPoint4 = createWaypoint("4", "Nikhil", "3000");
         wayPoint4.setItemList(createItems("Item 4", 2, 100));
 
         wayPoints.add(wayPoint1);
         wayPoints.add(wayPoint2);
         wayPoints.add(wayPoint3);
-        wayPoints.add(wayPoint4);
+        wayPoints.add(wayPoint4);*/
+        new GetOrdersList().execute(null, null, null);
 
    }
-    private CustomerWaypointDetails createWaypoint(String order, String name, String price, String address) {
+    private CustomerWaypointDetails createWaypoint(String order, String name, String price,String address) {
         return new CustomerWaypointDetails(order, name, price, address);
     }
     private List<CustomerOrderDetails> createItems(String itemName, int itemQty, int itemPrice) {
@@ -126,7 +127,7 @@ public class ItemsListFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
             // Showing progress dialog
-            pDialog = new ProgressDialog(ItemsListFragment.this.getActivity().getApplicationContext());
+            pDialog = new ProgressDialog(getActivity());
             pDialog.setMessage("Please wait...");
             pDialog.setCancelable(false);
             pDialog.show();
@@ -161,6 +162,8 @@ public class ItemsListFragment extends Fragment {
                         String name = c.getString(TAG_NAME);
                         String email = c.getString(TAG_EMAIL);
                         String address = c.getString(TAG_ADDRESS);
+                        String order_status = c.getString(TAG_ORDER_STATUS);
+
                         // Location node is JSON Object
                         JSONObject location = c.getJSONObject(TAG_LOCATION);
                         String latitude = location.getString(TAG_LATITUDE);
@@ -180,8 +183,9 @@ public class ItemsListFragment extends Fragment {
                         OrderMap.put(TAG_EMAIL, email);
                         OrderMap.put(TAG_PHONE_MOBILE, mobile);
 
+
                         // Getting JSON Array node
-                        items = jsonObj.getJSONArray(TAG_ITEMS);
+                        items = c.getJSONArray(TAG_ITEMS);
 
 
                         List <CustomerOrderDetails> tCustomerOrderList = new ArrayList<CustomerOrderDetails>();
@@ -201,7 +205,7 @@ public class ItemsListFragment extends Fragment {
 
                         }
                         CustomerWaypointDetails tCustomerOrder = new CustomerWaypointDetails(order_id,name,
-                                ""+totalOrderCost,"");
+                                ""+totalOrderCost,address);
                         // Set the customer list
                         tCustomerOrder.setItemList(tCustomerOrderList);
 
