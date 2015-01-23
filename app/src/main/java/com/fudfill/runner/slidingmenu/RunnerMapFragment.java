@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ import java.util.List;
 
 
 public class RunnerMapFragment extends Fragment {
-
+    private static View view;
     ProgressDialog pDialog;
     List<Runner> mRunnersList;
     private ArrayList<MarkerOptions> buddyLocOptions = new ArrayList<MarkerOptions>();
@@ -66,19 +67,32 @@ public class RunnerMapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+        if(view != null){
+           // new GetRunnersLocation().execute(null, null, null);
+            return view;
+        }else try{
 
-		View rootView = inflater.inflate(R.layout.fragment_runnermap,
+        view= inflater.inflate(R.layout.fragment_runnermap,
 				container, false);
         markerImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_runner);
         if(initializeMap()){
             new GetRunnersLocation().execute(null, null, null);
 
         }
+        }catch (InflateException e){}
 
-		return rootView;
+		return view;
 	}
 
+    public void onDestroyView() {
+        super.onDestroyView();
+        MapFragment f = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.runner_map_fragment);
+        if (f != null)
+            getFragmentManager().beginTransaction().remove(f).commit();
+        view = null;
 
+    }
     /**
      * Async task class to get json by making HTTP call
      * */

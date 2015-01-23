@@ -16,6 +16,7 @@ import com.fudfill.runner.slidingmenu.common.RunnerRoute;
 import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class RouteMapFragment extends Fragment {
     ProgressDialog pDialog;
+    private View rootView;
     List<RunnerRoute> mAssignedRoutes;
     private static String url = "http://192.168.1.4:80/fudfill/RESTAPI/routeplan/1";
     private static String TAG="RouteMapFragment";
@@ -47,16 +49,26 @@ public class RouteMapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		View rootView = inflater.inflate(R.layout.fragment_routemap, container,
-				false);
-        new GetRouteMap().execute(null, null, null);
+        if(rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_routemap, container,
+                    false);
+            new GetRouteMap().execute(null, null, null);
+        }
       //  Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/37.3772964,-121.9231012/37.3263615,-121.9671459/37.335775,-122.0245137/37.3746695,-122.0229961/@37.3461087,-122.031922,23308m/data=!3m2!1e3!4b1!4m2!4m1!3e0"));
         //intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         //startActivity(intent);
 
 		return rootView;
 	}
+    public void onDestroyView() {
+        super.onDestroyView();
+        MapFragment f = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.runner_map_fragment);
+        if (f != null)
+            getFragmentManager().beginTransaction().remove(f).commit();
+         rootView = null;
+
+    }
     /**
      * Async task class to get json by making HTTP call
      * */

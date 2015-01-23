@@ -17,12 +17,7 @@
         android:src="@drawable/ic_routemap"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"/>
-    <fragment
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id ="@+id/route_map_fragment"
-        class ="com.google.android.gms.maps.MapFragment"
-        />
+
     
 
 </RelativeLayout>
