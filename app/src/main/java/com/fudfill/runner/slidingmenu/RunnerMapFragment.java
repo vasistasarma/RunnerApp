@@ -42,7 +42,7 @@ public class RunnerMapFragment extends Fragment {
     private static final int MAP_ZOOM_LEVEL = 4;
     private static String TAG="RunnerMapFragment";
 
-    private static String url = "http://192.168.1.4:8080/fudfildelivery/testserver?file=runners";
+    private static String url = "http://192.168.1.64:8080/fudfildelivery/testserver?file=runners";
 
     // JSON Node names
     private static final String TAG_RUNNERS = "runners";
@@ -67,10 +67,10 @@ public class RunnerMapFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-        if(view != null){
+        /*if(view != null){
            // new GetRunnersLocation().execute(null, null, null);
             return view;
-        }else try{
+        }else*/ try{
 
         view= inflater.inflate(R.layout.fragment_runnermap,
 				container, false);
@@ -84,7 +84,7 @@ public class RunnerMapFragment extends Fragment {
 		return view;
 	}
 
-    public void onDestroyView() {
+   /* public void onDestroyView() {
         super.onDestroyView();
         MapFragment f = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.runner_map_fragment);
@@ -92,7 +92,7 @@ public class RunnerMapFragment extends Fragment {
             getFragmentManager().beginTransaction().remove(f).commit();
         view = null;
 
-    }
+    }*/
     /**
      * Async task class to get json by making HTTP call
      * */

@@ -23,6 +23,7 @@ import com.fudfill.runner.slidingmenu.model.NavDrawerItem;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 
 import java.util.ArrayList;
 
@@ -287,4 +288,14 @@ public class MainActivity extends Activity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MapFragment f = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.runner_map_fragment);
+        if (f != null)
+            getFragmentManager().beginTransaction().remove(f).commit();
+
+
+    }
 }
