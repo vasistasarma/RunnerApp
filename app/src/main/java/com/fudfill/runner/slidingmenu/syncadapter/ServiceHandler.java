@@ -13,6 +13,9 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
@@ -26,6 +29,11 @@ public class ServiceHandler {
     public final static int GET = 1;
     public final static int POST = 2;
     public final static int PUT = 3;
+
+    int timeoutConnection = 3000;
+
+    int timeoutSocket = 5000;
+
 
     public ServiceHandler() {
 
@@ -85,9 +93,16 @@ public class ServiceHandler {
                                   List<NameValuePair> params) {
         try {
             // http client
-            DefaultHttpClient httpClient = new DefaultHttpClient();
+            DefaultHttpClient httpClient;
             HttpEntity httpEntity = null;
             HttpResponse httpResponse = null;
+            HttpParams httpParameters = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+            // Set the default socket timeout (SO_TIMEOUT)
+            // in milliseconds which is the timeout for waiting for data.
+            HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+            httpClient = new DefaultHttpClient(httpParameters);
 
             // Checking http request method type
 

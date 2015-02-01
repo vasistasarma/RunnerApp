@@ -197,11 +197,11 @@ public CustomerOrderListAdapter(Context customerItemList){
             // Dismiss the progress dialog
              if(syncResult)
             {
-                Toast.makeText(context,"Sync Success", Toast.LENGTH_SHORT);
+                Toast.makeText(context,"Sync Success", Toast.LENGTH_SHORT).show();
             }
             else
             {
-                Toast.makeText(context,"Sync failed", Toast.LENGTH_SHORT);
+                Toast.makeText(context,"Sync failed", Toast.LENGTH_SHORT).show();
             }
 
 
