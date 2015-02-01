@@ -32,7 +32,22 @@
             </intent-filter>
         </activity>
 
+        <provider android:name="com.fudfill.runner.slidingmenu.common.RunnerProvider"
+            android:authorities="com.fudfill.runner.provider.items">
+        </provider>
+
         <service android:enabled="true" android:name="com.fudfill.runner.slidingmenu.location.GPSRunnerTracker" />
+
+        <service
+            android:name="com.fudfill.runner.slidingmenu.syncadapter.SyncService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.fudfill.runner.slidingmenu.syncadapter.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="com.fudfill.runner.slidingmenu.syncadapter.SyncAdapter"
+                android:resource="@xml/sync_adapter" />
+        </service>
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyD2un51AiprcCLAAMVZdNMvuSMCz-a9a3g"/>

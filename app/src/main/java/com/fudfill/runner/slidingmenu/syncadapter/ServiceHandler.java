@@ -1,5 +1,7 @@
 package com.fudfill.runner.slidingmenu.syncadapter;
 
+import android.util.Log;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -7,8 +9,11 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -20,6 +25,7 @@ public class ServiceHandler {
     static String response = null;
     public final static int GET = 1;
     public final static int POST = 2;
+    public final static int PUT = 3;
 
     public ServiceHandler() {
 
@@ -32,6 +38,41 @@ public class ServiceHandler {
      * */
     public String makeServiceCall(String url, int method) {
         return this.makeServiceCall(url, method, null);
+    }
+
+    public String makeServiceCallWithS(String url, int method,
+                                  String body) {
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpResponse httpResponse = null;
+        HttpEntity httpEntity = null;
+        HttpPut httpput;
+
+        if(method != PUT)
+        {
+            Log.d("Fudfill","Valid only for PUT Requests: "+method);
+            return null;
+        }
+        try {
+            httpput = new HttpPut(url);
+            StringEntity entity=null;
+            if (body != null) {
+                entity = new StringEntity(body, HTTP.UTF_8);
+                entity.setContentType("application/json");
+                httpput.setEntity(entity);
+            }
+
+            httpResponse = httpClient.execute(httpput);
+            httpEntity = httpResponse.getEntity();
+            response = EntityUtils.toString(httpEntity);
+            return response;
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**
@@ -49,6 +90,7 @@ public class ServiceHandler {
             HttpResponse httpResponse = null;
 
             // Checking http request method type
+
             if (method == POST) {
                 HttpPost httpPost = new HttpPost(url);
                 // adding post params

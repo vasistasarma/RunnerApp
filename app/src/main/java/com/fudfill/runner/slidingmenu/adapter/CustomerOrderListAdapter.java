@@ -1,26 +1,31 @@
 package com.fudfill.runner.slidingmenu.adapter;
 
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
-import android.media.Image;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fudfill.runner.slidingmenu.R;
+import com.fudfill.runner.slidingmenu.common.RunnerProvider;
+import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
 
-import junit.framework.TestCase;
+import org.json.JSONArray;
+
+import java.util.List;
 
 /**
  * Created by Sowmya on 1/4/2015.
@@ -30,12 +35,16 @@ public class CustomerOrderListAdapter extends BaseExpandableListAdapter{
     private List<CustomerWaypointDetails> wayPointsList;
     private int itemLayoutId;
     private int groupLayoutId;
+    ProgressDialog pDialog;
+    ContentResolver mContentResolver;
+    boolean syncResult=false;
 
     public CustomerOrderListAdapter(List<CustomerWaypointDetails>wayPointsList, Context context){
         this.itemLayoutId=R.layout.customer_order_list;
         this.groupLayoutId=R.layout.customer_waypoints_list;
         this.wayPointsList=wayPointsList;
         this.context=context;
+        mContentResolver = context.getContentResolver();
     }
  @Override
     public int getGroupCount() {
@@ -85,7 +94,7 @@ public CustomerOrderListAdapter(Context customerItemList){
             v = inflater.inflate(R.layout.customer_waypoints_list, parent, false);
         }
 
-        TextView txtOrderOfDelivery = (TextView)v.findViewById(R.id.customer_waypoint_order);
+        final TextView txtOrderOfDelivery = (TextView)v.findViewById(R.id.customer_waypoint_order);
         TextView txtWayPointName = (TextView)v.findViewById(R.id.customer_waypoint_name);
         TextView txtPriceToCollect = (TextView) v.findViewById(R.id.customer_waypoint_price);
         TextView txtCustomerAddress = (TextView)v.findViewById(R.id.customer_waypoint_address);
@@ -99,7 +108,18 @@ public CustomerOrderListAdapter(Context customerItemList){
             @Override
             public void onClick(View v) {
                 imgbtnItemDeliveryStatus.setImageResource(R.drawable.item_delivered);
+                ContentValues values = new ContentValues();
+
+                values.put(RunnerProvider.ORDER_ID,
+                        txtOrderOfDelivery.getText().toString());
+
+                values.put(RunnerProvider.ORDER_STATUS,"delivered");
+
+                Uri uri = context.getContentResolver().insert(
+                        RunnerProvider.CONTENT_URI, values);
                 Toast.makeText(context, "Item Marked Delivered", Toast.LENGTH_SHORT).show();
+
+                new SyncOrderList().execute(null, null, null);
                 //update the delivery status flag to server here..
                 // set or unset the flag..for now there is only setting of flag in here
             }
@@ -145,5 +165,106 @@ public CustomerOrderListAdapter(Context customerItemList){
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
+    }
+
+    /**
+     * Async task class to get json by making HTTP call
+     * */
+    private class SyncOrderList extends AsyncTask<Void, Void, Void> {
+
+        private JSONArray order;
+
+        private JSONArray items;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            // Creating service handler class instance
+            syncResult = false;
+            syncResult = syncOrdersToServer();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+             if(syncResult)
+            {
+                Toast.makeText(context,"Sync Success", Toast.LENGTH_SHORT);
+            }
+            else
+            {
+                Toast.makeText(context,"Sync failed", Toast.LENGTH_SHORT);
+            }
+
+
+        }
+
+        public boolean syncOrdersToServer() {
+            // Retrieve student records
+            String URL = "content://com.fudfill.runner.provider.items/orders";
+            String base_url = "http://192.168.1.64:8080/fudfildelivery/updateorder";
+            Uri items = Uri.parse(URL);
+            Cursor c = mContentResolver.query(items, null, null, null, "order_id");
+            int count = c.getCount();
+            Log.d("Fudfill","Items to be synced: "+count);
+            c.moveToFirst();
+            if(count >0) {
+                StringBuilder strBuilder = new StringBuilder();
+                strBuilder.append("{ ");
+                for (int index = 0; index < count; index++) {
+                    strBuilder.append("{ ");
+                    strBuilder.append("\"");
+                    strBuilder.append("order_id");
+                    strBuilder.append("\": \"");
+                    strBuilder.append(c.getString(c.getColumnIndex(RunnerProvider.ORDER_ID)));
+                    strBuilder.append("\",");
+                    strBuilder.append("\"");
+                    strBuilder.append("order_status");
+                    strBuilder.append("\": \"");
+                    strBuilder.append(c.getString(c.getColumnIndex(RunnerProvider.ORDER_STATUS)));
+                    strBuilder.append("\"");
+
+                    if(index == count-1)
+                    {
+                        strBuilder.append(" }");
+                    }
+                    else
+                    {
+                        strBuilder.append(" } , ");
+                    }
+                    c.moveToNext();
+                }
+                strBuilder.append(" }");
+                Log.d("Fudfill","JSON To be synced: "+strBuilder.toString());
+
+                if(strBuilder.length() > 5) {
+
+                    ServiceHandler sh = new ServiceHandler();
+
+                    // Making a request to url and getting response
+                    String jsonStr = sh.makeServiceCallWithS(base_url, ServiceHandler.PUT,strBuilder.toString());
+                    Log.d("Fudfill","JSON To be synced Response: jsonStr");
+
+                    if(jsonStr.contains("success"))
+                    {
+                        mContentResolver.delete(items,null,null);
+                        Log.d("Fudfill","Deleting the item records");
+                        return true;
+                    }
+                }
+
+            }
+
+            return false;
+        }
+
     }
 }
