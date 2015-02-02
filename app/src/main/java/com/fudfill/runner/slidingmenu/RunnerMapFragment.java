@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fudfill.runner.slidingmenu.common.FudfillConfig;
 import com.fudfill.runner.slidingmenu.common.Runner;
 import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
 import com.google.android.gms.maps.CameraUpdate;
@@ -42,7 +43,7 @@ public class RunnerMapFragment extends Fragment {
     private static final int MAP_ZOOM_LEVEL = 4;
     private static String TAG="RunnerMapFragment";
 
-    private static String url = "http://192.168.1.64:8080/fudfildelivery/testserver?file=runners";
+    private static String url = "http://"+FudfillConfig.SERVER_ADDR+"/fudfildelivery/testserver?file=runners";
 
     // JSON Node names
     private static final String TAG_RUNNERS = "runners";

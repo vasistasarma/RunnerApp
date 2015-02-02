@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fudfill.runner.slidingmenu.R;
+import com.fudfill.runner.slidingmenu.common.FudfillConfig;
 import com.fudfill.runner.slidingmenu.common.RunnerProvider;
 import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
 
@@ -210,7 +211,7 @@ public CustomerOrderListAdapter(Context customerItemList){
         public boolean syncOrdersToServer() {
             // Retrieve student records
             String URL = "content://com.fudfill.runner.provider.items/orders";
-            String base_url = "http://192.168.1.64:8080/fudfildelivery/updateorder";
+            String base_url = "http://"+ FudfillConfig.SERVER_ADDR+"/fudfildelivery/updateorder";
             Uri items = Uri.parse(URL);
             Cursor c = mContentResolver.query(items, null, null, null, "order_id");
             int count = c.getCount();

@@ -2,6 +2,8 @@ package com.fudfill.runner.slidingmenu.syncadapter;
 
 import android.util.Log;
 
+import com.fudfill.runner.slidingmenu.common.FudfillConfig;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -30,9 +32,7 @@ public class ServiceHandler {
     public final static int POST = 2;
     public final static int PUT = 3;
 
-    int timeoutConnection = 3000;
 
-    int timeoutSocket = 5000;
 
 
     public ServiceHandler() {
@@ -97,10 +97,10 @@ public class ServiceHandler {
             HttpEntity httpEntity = null;
             HttpResponse httpResponse = null;
             HttpParams httpParameters = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+            HttpConnectionParams.setConnectionTimeout(httpParameters, FudfillConfig.timeoutConnection);
             // Set the default socket timeout (SO_TIMEOUT)
             // in milliseconds which is the timeout for waiting for data.
-            HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+            HttpConnectionParams.setSoTimeout(httpParameters, FudfillConfig.timeoutSocket);
 
             httpClient = new DefaultHttpClient(httpParameters);
 

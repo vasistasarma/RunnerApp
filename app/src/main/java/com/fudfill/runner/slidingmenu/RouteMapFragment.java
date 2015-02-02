@@ -11,15 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fudfill.runner.slidingmenu.common.Runner;
+import com.fudfill.runner.slidingmenu.common.FudfillConfig;
 import com.fudfill.runner.slidingmenu.common.RunnerRoute;
 import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +27,7 @@ public class RouteMapFragment extends Fragment {
     ProgressDialog pDialog;
     private View rootView;
     List<RunnerRoute> mAssignedRoutes;
-    private static String url = "http://192.168.1.4:80/fudfill/RESTAPI/routeplan/1";
+    private static String url = "http://"+ FudfillConfig.SERVER_ADDR+"/fudfill/RESTAPI/routeplan/1";
     private static String TAG="RouteMapFragment";
     private static final String TAG_ROUTES = "runner";
     private static final String TAG_RUNNERNAME = "name";
