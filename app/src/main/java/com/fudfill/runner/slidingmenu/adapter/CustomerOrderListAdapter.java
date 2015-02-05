@@ -6,9 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fudfill.runner.slidingmenu.R;
-import com.fudfill.runner.slidingmenu.common.FudfillConfig;
 import com.fudfill.runner.slidingmenu.common.RunnerProvider;
-import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
-
-import org.json.JSONArray;
+import com.fudfill.runner.slidingmenu.syncadapter.RunnerSyncTask;
 
 import java.util.List;
 
@@ -116,11 +111,35 @@ public CustomerOrderListAdapter(Context customerItemList){
 
                 values.put(RunnerProvider.ORDER_STATUS,"delivered");
 
-                Uri uri = context.getContentResolver().insert(
-                        RunnerProvider.CONTENT_URI, values);
+                String[] mProjection =
+                {
+                        RunnerProvider.ORDER_ID,    // Contract class constant for the _ID column name
+                 };
+                String[] mSelectionArgs = {""};
+                String mSelectionClause = RunnerProvider.ORDER_ID + " = ?";
+                mSelectionArgs[0]=txtOrderOfDelivery.getText().toString();
+
+                Cursor findCursor = context.getContentResolver().query(RunnerProvider.CONTENT_URI,
+                        mProjection,mSelectionClause,mSelectionArgs,null);
+
+                if(findCursor!=null && findCursor.getCount()>0)
+                {
+                    //Update
+                    ContentValues updtvalues = new ContentValues();
+                    updtvalues.put(RunnerProvider.ORDER_STATUS,"delivered");
+                    context.getContentResolver().update(RunnerProvider.CONTENT_URI,
+                            updtvalues,mSelectionClause,mSelectionArgs);
+                }
+                else {
+
+                    Uri uri = context.getContentResolver().insert(
+                            RunnerProvider.CONTENT_URI, values);
+                }
                 Toast.makeText(context, "Item Marked Delivered", Toast.LENGTH_SHORT).show();
 
-                new SyncOrderList().execute(null, null, null);
+                //new SyncOrderList().execute(null, null, null);
+                RunnerSyncTask task = new RunnerSyncTask();
+                task.execute(context);
                 //update the delivery status flag to server here..
                 // set or unset the flag..for now there is only setting of flag in here
             }
@@ -168,104 +187,5 @@ public CustomerOrderListAdapter(Context customerItemList){
         return true;
     }
 
-    /**
-     * Async task class to get json by making HTTP call
-     * */
-    private class SyncOrderList extends AsyncTask<Void, Void, Void> {
 
-        private JSONArray order;
-
-        private JSONArray items;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            // Creating service handler class instance
-            syncResult = false;
-            syncResult = syncOrdersToServer();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            // Dismiss the progress dialog
-             if(syncResult)
-            {
-                Toast.makeText(context,"Sync Success", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(context,"Sync failed", Toast.LENGTH_SHORT).show();
-            }
-
-
-        }
-
-        public boolean syncOrdersToServer() {
-            // Retrieve student records
-            String URL = "content://com.fudfill.runner.provider.items/orders";
-            String base_url = "http://"+ FudfillConfig.SERVER_ADDR+"/fudfildelivery/updateorder";
-            Uri items = Uri.parse(URL);
-            Cursor c = mContentResolver.query(items, null, null, null, "order_id");
-            int count = c.getCount();
-            Log.d("Fudfill","Items to be synced: "+count);
-            c.moveToFirst();
-            if(count >0) {
-                StringBuilder strBuilder = new StringBuilder();
-                strBuilder.append("{ ");
-                for (int index = 0; index < count; index++) {
-                    strBuilder.append("{ ");
-                    strBuilder.append("\"");
-                    strBuilder.append("order_id");
-                    strBuilder.append("\": \"");
-                    strBuilder.append(c.getString(c.getColumnIndex(RunnerProvider.ORDER_ID)));
-                    strBuilder.append("\",");
-                    strBuilder.append("\"");
-                    strBuilder.append("order_status");
-                    strBuilder.append("\": \"");
-                    strBuilder.append(c.getString(c.getColumnIndex(RunnerProvider.ORDER_STATUS)));
-                    strBuilder.append("\"");
-
-                    if(index == count-1)
-                    {
-                        strBuilder.append(" }");
-                    }
-                    else
-                    {
-                        strBuilder.append(" } , ");
-                    }
-                    c.moveToNext();
-                }
-                strBuilder.append(" }");
-                Log.d("Fudfill","JSON To be synced: "+strBuilder.toString());
-
-                if(strBuilder.length() > 5) {
-
-                    ServiceHandler sh = new ServiceHandler();
-
-                    // Making a request to url and getting response
-                    String jsonStr = sh.makeServiceCallWithS(base_url, ServiceHandler.PUT,strBuilder.toString());
-                    Log.d("Fudfill","JSON To be synced Response: jsonStr");
-
-                    if(jsonStr.contains("success"))
-                    {
-                        mContentResolver.delete(items,null,null);
-                        Log.d("Fudfill","Deleting the item records");
-                        return true;
-                    }
-                }
-
-            }
-
-            return false;
-        }
-
-    }
 }

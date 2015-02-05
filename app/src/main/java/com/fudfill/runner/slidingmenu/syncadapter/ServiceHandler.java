@@ -50,7 +50,12 @@ public class ServiceHandler {
 
     public String makeServiceCallWithS(String url, int method,
                                   String body) {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpParams httpParameters = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpParameters, FudfillConfig.timeoutConnection);
+        // Set the default socket timeout (SO_TIMEOUT)
+        // in milliseconds which is the timeout for waiting for data.
+        HttpConnectionParams.setSoTimeout(httpParameters, FudfillConfig.timeoutSocket);
+        DefaultHttpClient httpClient = new DefaultHttpClient(httpParameters);
         HttpResponse httpResponse = null;
         HttpEntity httpEntity = null;
         HttpPut httpput;
