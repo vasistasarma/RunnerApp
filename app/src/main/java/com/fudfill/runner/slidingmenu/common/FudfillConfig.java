@@ -40,7 +40,7 @@ public class FudfillConfig {
     {
         Log.d("FudfillConfig",": Testmode:  "+ is_test_mode);
         if(is_test_mode)
-            return TEST_SERVER_ADDR;
+            return "/Fudfill/RESTAPI/runnerlocation/1";
         else
             return "/Fudfill/RESTAPI/runnerlocation/";
     }
