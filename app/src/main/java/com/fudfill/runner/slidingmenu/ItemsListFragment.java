@@ -157,6 +157,8 @@ public class ItemsListFragment extends Fragment {
                     // Getting JSON Array node
                     order = jsonObj.getJSONArray(TAG_ORDER);
 
+                    // Delete All the temp files
+                    FileUtils.deleteOldCacheFiles();
 
                     // looping through All orders
                     for (int i = 0; i < order.length(); i++) {
@@ -194,6 +196,8 @@ public class ItemsListFragment extends Fragment {
             custOrderAdapter.notifyDataSetChanged();
 
         }
+
+
 
         public  String parseJsonString(String jsonStr)
         {
