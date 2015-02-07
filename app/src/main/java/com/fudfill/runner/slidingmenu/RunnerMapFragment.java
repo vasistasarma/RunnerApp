@@ -43,7 +43,7 @@ public class RunnerMapFragment extends Fragment {
     private static final int MAP_ZOOM_LEVEL = 4;
     private static String TAG="RunnerMapFragment";
 
-    private static String url = "http://"+FudfillConfig.SERVER_ADDR+"/fudfildelivery/testserver?file=runners";
+    private static String url = "http://"+FudfillConfig.getServerAddr()+"/fudfildelivery/testserver?file=runners";
 
     // JSON Node names
     private static final String TAG_RUNNERS = "runners";

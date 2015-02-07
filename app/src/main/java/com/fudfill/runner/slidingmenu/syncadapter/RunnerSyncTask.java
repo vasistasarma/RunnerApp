@@ -63,7 +63,7 @@ public class RunnerSyncTask extends AsyncTask<Object, Integer, Integer> {
     public boolean syncOrdersToServer() {
         // Retrieve student records
         String URL = "content://com.fudfill.runner.provider.items/orders";
-        String base_url = "http://"+ FudfillConfig.SERVER_ADDR+"/fudfildelivery/updateorder";
+        String base_url = "http://"+ FudfillConfig.getServerAddr()+"/fudfildelivery/updateorder";
         Uri items = Uri.parse(URL);
         Cursor c = mContentResolver.query(items, null, null, null, "order_id");
         int count = c.getCount();

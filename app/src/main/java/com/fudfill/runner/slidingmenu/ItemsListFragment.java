@@ -31,7 +31,7 @@ public class ItemsListFragment extends Fragment {
     private List<CustomerWaypointDetails> wayPoints;
 
     // URL to get contacts JSON
-    private static String url = "http://"+ FudfillConfig.SERVER_ADDR+"/fudfildelivery/testserver?file=orders";
+    private static String url = "http://"+ FudfillConfig.getServerAddr()+"/fudfildelivery/testserver?file=orders";
    // private static String url = "http://128.199.242.169/fudfildelivery/testserver?file=orders";
     CustomerOrderListAdapter custOrderAdapter;
 
