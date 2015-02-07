@@ -27,7 +27,7 @@ public class RouteMapFragment extends Fragment {
     ProgressDialog pDialog;
     private View rootView;
     List<RunnerRoute> mAssignedRoutes;
-    private static String url = "http://"+ FudfillConfig.getServerAddr()+"/fudfill/RESTAPI/routeplan/1";
+    private static String url = "http://"+ FudfillConfig.getServerAddr()+FudfillConfig.getRunnerPlannedMapUrl();
     private static String TAG="RouteMapFragment";
     private static final String TAG_ROUTES = "runner";
     private static final String TAG_RUNNERNAME = "name";

@@ -26,7 +26,7 @@ public class FudfillConfig {
         if(is_test_mode)
             return TEST_SERVER_ADDR;
         else
-            return "/routeplan/search/";
+            return "/Fudfill/RESTAPI/routeplan/search/";
     }
     public static String getRunnerPlannedMapUrl()
     {
@@ -34,7 +34,7 @@ public class FudfillConfig {
         if(is_test_mode)
             return TEST_SERVER_ADDR;
         else
-            return "/routeplan/";
+            return "/Fudfill/RESTAPI/routeplan/1";
     }
     public static String getRunnerupdateLocUrl()
     {
@@ -42,6 +42,6 @@ public class FudfillConfig {
         if(is_test_mode)
             return TEST_SERVER_ADDR;
         else
-            return "/runnerlocation/";
+            return "/Fudfill/RESTAPI/runnerlocation/";
     }
 }
