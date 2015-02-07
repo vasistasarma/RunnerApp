@@ -20,4 +20,28 @@ public class FudfillConfig {
         else
             return LIVE_SERVER_ADDR;
     }
+    public static String getRunnersLocationUrl()
+    {
+        Log.d("FudfillConfig",": Testmode:  "+ is_test_mode);
+        if(is_test_mode)
+            return TEST_SERVER_ADDR;
+        else
+            return "/routeplan/search/";
+    }
+    public static String getRunnerPlannedMapUrl()
+    {
+        Log.d("FudfillConfig",": Testmode:  "+ is_test_mode);
+        if(is_test_mode)
+            return TEST_SERVER_ADDR;
+        else
+            return "/routeplan/";
+    }
+    public static String getRunnerupdateLocUrl()
+    {
+        Log.d("FudfillConfig",": Testmode:  "+ is_test_mode);
+        if(is_test_mode)
+            return TEST_SERVER_ADDR;
+        else
+            return "/runnerlocation/";
+    }
 }
