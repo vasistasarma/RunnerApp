@@ -1,13 +1,19 @@
 package com.fudfill.runner.slidingmenu.syncadapter;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.fudfill.runner.slidingmenu.MainActivity;
+import com.fudfill.runner.slidingmenu.R;
 import com.fudfill.runner.slidingmenu.common.FudfillConfig;
 import com.fudfill.runner.slidingmenu.common.RunnerProvider;
 
@@ -21,6 +27,8 @@ public class RunnerSyncTask extends AsyncTask<Object, Integer, Integer> {
 
     ContentResolver mContentResolver;
     boolean syncResult = false;
+    private NotificationManager mNotificationManager;
+    private int notificationID = 100;
 
         @Override
         protected Integer doInBackground(Object... params) {
@@ -38,7 +46,8 @@ public class RunnerSyncTask extends AsyncTask<Object, Integer, Integer> {
 
     @Override
     protected void onPostExecute(Integer integer) {
-        if(syncResult)
+        displayNotification();
+        /*if(syncResult)
         {
             Toast.makeText(context,"Sync Success", Toast.LENGTH_SHORT).show();
 
@@ -46,7 +55,7 @@ public class RunnerSyncTask extends AsyncTask<Object, Integer, Integer> {
         else
         {
             Toast.makeText(context,"Sync failed", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
 
@@ -108,6 +117,52 @@ public class RunnerSyncTask extends AsyncTask<Object, Integer, Integer> {
         }
 
         return false;
+    }
+
+    protected void displayNotification() {
+        String title="Sync Status";
+        String text;
+        Log.i("Start", "notification");
+
+      /* Invoking the default notification service */
+        NotificationCompat.Builder  mBuilder =
+                new NotificationCompat.Builder(context);
+        if(syncResult)
+        {
+            text = "Updation Success";
+        }
+        else
+        {
+            text = "Updation failed";
+        }
+        mBuilder.setContentTitle(title);
+        mBuilder.setContentText(text);
+        mBuilder.setTicker("Sync Alert!");
+        mBuilder.setSmallIcon(R.drawable.ic_launcher);
+
+
+      /* Creates an explicit intent for an Activity in your app */
+        Intent resultIntent = new Intent(context, MainActivity.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(MainActivity.class);
+
+      /* Adds the Intent that starts the Activity to the top of the stack */
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        mNotificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+      /* notificationID allows you to update the notification later on. */
+        mNotificationManager.notify(notificationID, mBuilder.build());
     }
 
     }
