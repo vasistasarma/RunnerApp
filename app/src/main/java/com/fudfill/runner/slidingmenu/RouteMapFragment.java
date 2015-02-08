@@ -37,6 +37,7 @@ public class RouteMapFragment extends Fragment {
     private static final String TAG_EMAIL = "emailId";
     private static final String TAG_PHONE_MOBILE = "mobile";
     private static final String ROUTE_FILE = "route.txt";
+    private boolean refreshReq = false;
 
 
     public RouteMapFragment() {
@@ -47,6 +48,7 @@ public class RouteMapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (rootView == null) {
+            refreshReq = getArguments().getBoolean("refresh");
             rootView = inflater.inflate(R.layout.fragment_routemap, container,
                     false);
             new GetRouteMap().execute(null, null, null);
@@ -90,11 +92,24 @@ public class RouteMapFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... arg0) {
+            String jsonStr=null;
+            if(!refreshReq)
+            {
+                jsonStr = FileUtils.GetTextFromFile("route.txt");
+                try {
+                    if (jsonStr != null) {
+                        parseRouteJSon(jsonStr);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
             // Creating service handler class instance
             ServiceHandler sh = new ServiceHandler();
 
             // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+            jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
 
             Log.d(TAG, "Response: > " + jsonStr);
 

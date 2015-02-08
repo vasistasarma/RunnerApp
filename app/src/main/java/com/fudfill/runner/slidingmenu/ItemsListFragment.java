@@ -34,6 +34,7 @@ public class ItemsListFragment extends Fragment {
     private static String url = "http://" + FudfillConfig.getServerAddr() + "/fudfildelivery/testserver?file=orders";
     // private static String url = "http://128.199.242.169/fudfildelivery/testserver?file=orders";
     CustomerOrderListAdapter custOrderAdapter;
+    public static GetOrdersList ordersSyncTask;
 
 
     ProgressDialog pDialog;
@@ -58,6 +59,8 @@ public class ItemsListFragment extends Fragment {
     private static final String TAG_ITEM_COST = "item_cost";
     private static final String TAG_ITEM_COUNT = "item_count";
 
+    private boolean refreshReq=false;
+
 
     public ItemsListFragment() {
     }
@@ -68,12 +71,15 @@ public class ItemsListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_items,
                 container, false);
+        refreshReq = getArguments().getBoolean("refresh");
         initData();
         ExpandableListView itemList = (ExpandableListView) rootView.findViewById(R.id.customerItemList);
         itemList.setIndicatorBounds(5, 5);
         custOrderAdapter = new CustomerOrderListAdapter(wayPoints, this.getActivity().getApplicationContext());
         itemList.setIndicatorBounds(0, 20);
         itemList.setAdapter(custOrderAdapter);
+
+
         return rootView;
     }
 
@@ -102,6 +108,12 @@ public class ItemsListFragment extends Fragment {
         new GetOrdersList().execute(null, null, null);
 
     }
+
+    public void refreshView()
+    {
+        new GetOrdersList().execute(null, null, null);
+    }
+
 
     private CustomerWaypointDetails createWaypoint(String order, String name, String price, String address, String phone) {
         return new CustomerWaypointDetails(order, name, price, address, phone);
@@ -140,6 +152,13 @@ public class ItemsListFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... arg0) {
+
+            if(!refreshReq)
+            {
+                // Fetch from Local file
+                parseOrdersFromFile();
+                return null;
+            }
             // Creating service handler class instance
             ServiceHandler sh = new ServiceHandler();
 

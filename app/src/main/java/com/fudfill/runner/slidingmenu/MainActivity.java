@@ -51,6 +51,8 @@ public class MainActivity extends Activity {
     private NavDrawerListAdapter adapter;
 
     GPSRunnerTracker gps;
+    private int mSelectedView;
+    private boolean mRefreshView = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,12 +202,17 @@ public class MainActivity extends Activity {
         }
         // Handle action bar actions click
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
+            case R.id.action_settings: {
+                mRefreshView = true;
+                displayView(mSelectedView);
+
+            }
+            return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
 
     /* *
      * Called when invalidateOptionsMenu() is triggered
@@ -224,24 +231,32 @@ public class MainActivity extends Activity {
     private void displayView(int position) {
         // update the main content by replacing fragments
         Fragment fragment = null;
+        mSelectedView = position;
+        String fragTag = null;
         switch (position) {
             case 0:
                 fragment = new PickupFragment();
+                fragTag = "PickupFragment";
                 break;
             case 1:
                 fragment = new ItemsListFragment();
+                fragTag = "ItemsListFragment";
                 break;
             case 2:
                 fragment = new RouteMapFragment();
+                fragTag = "RouteMapFragment";
                 break;
             case 3:
                 fragment = new RunnerMapFragment();
+                fragTag = "RunnerMapFragment";
                 break;
             case 4:
                 fragment = new EscalateFragment();
+                fragTag = "EscalateFragment";
                 break;
             case 5:
                 fragment = new WhatsHotFragment();
+                fragTag = "WhatsHotFragment";
                 break;
 
             default:
@@ -249,9 +264,15 @@ public class MainActivity extends Activity {
         }
 
         if (fragment != null) {
+
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("refresh", mRefreshView);
+            fragment.setArguments(bundle);
+            mRefreshView = false;
+
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
+                    .replace(R.id.frame_container, fragment, fragTag).commit();
 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
@@ -262,6 +283,14 @@ public class MainActivity extends Activity {
             // error in creating fragment
             Log.e("MainActivity", "Error in creating fragment");
         }
+    }
+
+    public Fragment getActiveFragment() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            return null;
+        }
+        String tag = getFragmentManager().getBackStackEntryAt(getFragmentManager().getBackStackEntryCount() - 1).getName();
+        return (Fragment) getFragmentManager().findFragmentByTag(tag);
     }
 
     @Override
