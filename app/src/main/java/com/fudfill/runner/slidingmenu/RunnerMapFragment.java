@@ -43,7 +43,7 @@ public class RunnerMapFragment extends Fragment {
     private static final int MAP_ZOOM_LEVEL = 4;
     private static String TAG="RunnerMapFragment";
 
-    private static String url = "http://"+FudfillConfig.getServerAddr()+"/fudfildelivery/testserver?file=runners";
+    private static String url = "http://"+FudfillConfig.getServerAddr()+FudfillConfig.getRunnersLocationUrl();
 
     // JSON Node names
     private static final String TAG_RUNNERS = "runners";
@@ -52,6 +52,7 @@ public class RunnerMapFragment extends Fragment {
     private static final String TAG_LOCATION = "location";
     private static final String TAG_LATITUDE = "latitude";
     private static final String TAG_LONGITUDE = "longitude";
+    private static final String TAG_UPDATEDTIME = "lastupdatedtime";
     private static final String TAG_PHONE_MOBILE = "mobile";
 
 	public RunnerMapFragment() {
@@ -142,15 +143,17 @@ public class RunnerMapFragment extends Fragment {
                         String name = runner.getString(TAG_NAME);
                         String email = runner.getString(TAG_EMAIL);
                         // Location node is JSON Object
-                        JSONObject location = runner.getJSONObject(TAG_LOCATION);
-                        String latitude = location.getString(TAG_LATITUDE);
-                        String longitude = location.getString(TAG_LONGITUDE);
+                        //JSONObject location = runner.getJSONObject(TAG_LOCATION);
+                        String latitude = runner.getString(TAG_LATITUDE);
+                        String longitude = runner.getString(TAG_LONGITUDE);
+                        String timeupdated = runner.getString(TAG_UPDATEDTIME);
 
                         tRunner.setEmailId(email);
                         tRunner.setRunnerId(email);
                         tRunner.setLatitude(latitude);
                         tRunner.setLongitude(longitude);
                         tRunner.setMobile(mobile);
+                        tRunner.setLastUpdatedtime(timeupdated);
                         tRunner.setName(name);
                         mRunnersList.add(tRunner);
 
@@ -185,7 +188,9 @@ public class RunnerMapFragment extends Fragment {
                          gMap.moveCamera(runnerPosition);
                          gMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).
                                  title(tRunner.getName()+", "+tRunner.getMobile()).anchor(.5f, .5f).
-                                 icon(BitmapDescriptorFactory.fromBitmap(markerImage)));
+                                 icon(BitmapDescriptorFactory.fromBitmap(markerImage)).
+                                 snippet("last updated:"+tRunner.getLastUpdatedtime())
+                            );
                      }
                  }
 

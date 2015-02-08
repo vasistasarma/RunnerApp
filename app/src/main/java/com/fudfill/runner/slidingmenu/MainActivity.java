@@ -141,9 +141,9 @@ public class MainActivity extends Activity {
             String runnLocUpd = "{ \"latitude\":\"" + latitude + "\","+
             "\"longitude\":\"" + longitude + "\","+
             "\"runner_prof_id\":\"1\","+
-            "\"route_assigned\":\"4.4\"} ";
+            "\"route_assigned\":\"4\"} ";
         new RunnerPublishTask().execute(MainActivity.this,
-                "http:/" + FudfillConfig.LIVE_SERVER_ADDR  +
+                "http://" + FudfillConfig.LIVE_SERVER_ADDR  +
                         FudfillConfig.getRunnerupdateLocUrl(), runnLocUpd);
             // \n is for new line
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();

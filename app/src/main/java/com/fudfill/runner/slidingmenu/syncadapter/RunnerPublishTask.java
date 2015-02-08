@@ -50,7 +50,7 @@ public class RunnerPublishTask extends AsyncTask<Object, Integer, Integer> {
     public boolean syncToServer() {
         // Retrieve student records
         String base_url = post_url;
-        Log.d("Fudfill","JSON To be synced: "+jsonData);
+        Log.d("Fudfill","JSON To be synced: "+jsonData+ post_url);
 
         ServiceHandler sh = new ServiceHandler();
 
