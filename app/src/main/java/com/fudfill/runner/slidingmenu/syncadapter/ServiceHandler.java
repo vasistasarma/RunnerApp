@@ -6,6 +6,7 @@ import com.fudfill.runner.slidingmenu.common.FudfillConfig;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -129,8 +130,15 @@ public class ServiceHandler {
                 httpResponse = httpClient.execute(httpGet);
 
             }
-            httpEntity = httpResponse.getEntity();
-            response = EntityUtils.toString(httpEntity);
+            if(HttpStatus.SC_OK == httpResponse.getStatusLine().getStatusCode()) {
+                httpEntity = httpResponse.getEntity();
+                response = EntityUtils.toString(httpEntity);
+            }
+            else
+            {
+                Log.d("Fudfill", "Response Rcvd:  " + httpResponse.getStatusLine().getStatusCode());
+                response = null;
+            }
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
