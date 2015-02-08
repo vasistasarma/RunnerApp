@@ -8,16 +8,16 @@ import android.view.ViewGroup;
 
 public class EscalateFragment extends Fragment {
 
-	public EscalateFragment() {
-	}
+    public EscalateFragment() {
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_escalate, container,
-				false);
+        View rootView = inflater.inflate(R.layout.fragment_escalate, container,
+                false);
 
-		return rootView;
-	}
+        return rootView;
+    }
 }

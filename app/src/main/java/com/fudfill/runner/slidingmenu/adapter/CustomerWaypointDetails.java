@@ -17,48 +17,60 @@ public class CustomerWaypointDetails implements Serializable {
     private String wayPointPhone;
     private List<CustomerOrderDetails> itemList = new ArrayList<CustomerOrderDetails>();
 
-    public CustomerWaypointDetails(String wayPointOrder, String wayPointName, String wayPointPrice, String wayPointAddress, String wayPointPhone){
-        this.wayPointOrder=wayPointOrder;
-        this.wayPointName=wayPointName;
-        this.wayPointPrice=wayPointPrice;
+    public CustomerWaypointDetails(String wayPointOrder, String wayPointName, String wayPointPrice, String wayPointAddress, String wayPointPhone) {
+        this.wayPointOrder = wayPointOrder;
+        this.wayPointName = wayPointName;
+        this.wayPointPrice = wayPointPrice;
         this.wayPointAddress = wayPointAddress;
         this.wayPointPhone = wayPointPhone;
     }
-    public String getWaypointOrder(){
+
+    public String getWaypointOrder() {
         return this.wayPointOrder;
     }
-    public void setWayPointOrder(String wayPointOrder){
-        this.wayPointOrder=wayPointOrder;
+
+    public void setWayPointOrder(String wayPointOrder) {
+        this.wayPointOrder = wayPointOrder;
     }
-    public String getWayPointName(){
+
+    public String getWayPointName() {
         return this.wayPointName;
     }
-    public void setWayPointName(String wayPointName){
-        this.wayPointName=wayPointName;
+
+    public void setWayPointName(String wayPointName) {
+        this.wayPointName = wayPointName;
     }
-    public String getWayPointPrice(){
+
+    public String getWayPointPrice() {
         return this.wayPointPrice;
     }
-    public void setWayPointPrice(String wayPointPrice){
-        this.wayPointPrice=wayPointPrice;
+
+    public void setWayPointPrice(String wayPointPrice) {
+        this.wayPointPrice = wayPointPrice;
     }
-    public List<CustomerOrderDetails>getItemList(){
+
+    public List<CustomerOrderDetails> getItemList() {
         return itemList;
     }
-    public void setItemList(List<CustomerOrderDetails> itemList){
-        this.itemList=itemList;
+
+    public void setItemList(List<CustomerOrderDetails> itemList) {
+        this.itemList = itemList;
     }
-    public String getWayPointAddress(){
-        return  this.wayPointAddress;
+
+    public String getWayPointAddress() {
+        return this.wayPointAddress;
     }
-    public void setWayPointAddress(String wayPointAddress){
-        this.wayPointAddress=wayPointAddress;
+
+    public void setWayPointAddress(String wayPointAddress) {
+        this.wayPointAddress = wayPointAddress;
     }
-    public  String getWayPointPhone(){
+
+    public String getWayPointPhone() {
         return this.wayPointPhone;
     }
-    public void setWayPointPhone(String wayPointPhone){
-        this.wayPointPhone=wayPointPhone;
+
+    public void setWayPointPhone(String wayPointPhone) {
+        this.wayPointPhone = wayPointPhone;
     }
 
 }

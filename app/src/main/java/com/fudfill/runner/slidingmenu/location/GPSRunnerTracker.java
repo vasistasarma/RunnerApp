@@ -30,6 +30,7 @@ public class GPSRunnerTracker extends Service implements LocationListener {
 
     protected LocationManager locationManager;
     private Location m_Location;
+
     public GPSRunnerTracker(Context context) {
         this.mContext = context;
         m_Location = getLocation();
@@ -49,8 +50,7 @@ public class GPSRunnerTracker extends Service implements LocationListener {
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
-            }
-            else {
+            } else {
                 this.canGetLocation = true;
                 if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(
@@ -122,8 +122,8 @@ public class GPSRunnerTracker extends Service implements LocationListener {
     /**
      * Function to show settings alert dialog
      * On pressing Settings button will lauch Settings Options
-     * */
-    public void showSettingsAlert(){
+     */
+    public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
@@ -134,7 +134,7 @@ public class GPSRunnerTracker extends Service implements LocationListener {
 
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 mContext.startActivity(intent);
             }
@@ -154,27 +154,27 @@ public class GPSRunnerTracker extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location arg0) {
         // TODO Auto-generated method stub
-        Log.d(TAG,"onLocationChanged: "+arg0);
-        Toast.makeText(mContext,"New Update: "+arg0, Toast.LENGTH_SHORT);
+        Log.d(TAG, "onLocationChanged: " + arg0);
+        Toast.makeText(mContext, "New Update: " + arg0, Toast.LENGTH_SHORT);
 
     }
 
     @Override
     public void onProviderDisabled(String arg0) {
         // TODO Auto-generated method stub
-        Log.d(TAG,"onProviderDisabled: "+arg0);
+        Log.d(TAG, "onProviderDisabled: " + arg0);
     }
 
     @Override
     public void onProviderEnabled(String arg0) {
         // TODO Auto-generated method stub
-        Log.d(TAG,"onProviderEnabled: "+arg0);
+        Log.d(TAG, "onProviderEnabled: " + arg0);
     }
 
     @Override
     public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
         // TODO Auto-generated method stub
-        Log.d(TAG,"onStatusChanged: "+arg0);
+        Log.d(TAG, "onStatusChanged: " + arg0);
     }
 
 

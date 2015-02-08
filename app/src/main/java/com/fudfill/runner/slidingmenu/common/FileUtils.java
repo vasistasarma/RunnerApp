@@ -22,11 +22,11 @@ public class FileUtils {
         myDir.mkdirs();
 
         try {
-        File file = new File (myDir, fileName);
-        if (file.exists ())
-            file.delete ();
-        else
-            file.createNewFile();
+            File file = new File(myDir, fileName);
+            if (file.exists())
+                file.delete();
+            else
+                file.createNewFile();
 
 
             FileOutputStream out = new FileOutputStream(file);
@@ -59,19 +59,24 @@ public class FileUtils {
         return text.toString();
     }
 
-    public static  boolean deleteOldCacheFiles() {
+    public static boolean deleteFile(String fileName) {
+        File sdCardRoot = Environment.getExternalStorageDirectory();
+        File file = new File(sdCardRoot + "/fudfill/runner", fileName);
+        return file.delete();
+    }
+
+    public static boolean deleteOldCacheFiles() {
         File sdCardRoot = Environment.getExternalStorageDirectory();
         File myDir = new File(sdCardRoot, "/fudfill/runner");
         File[] fileArray = myDir.listFiles();
-        if(fileArray !=null && fileArray.length > 0) {
+        if (fileArray != null && fileArray.length > 0) {
             for (File f : myDir.listFiles()) {
-                if(f.isFile()){
+                if (f.isFile()) {
                     Calendar time = Calendar.getInstance();
-                    time.add(Calendar.DAY_OF_YEAR,-1);
+                    time.add(Calendar.DAY_OF_YEAR, -1);
                     //I store the required attributes here and delete them
                     Date lastModified = new Date(f.lastModified());
-                    if(lastModified.before(time.getTime()))
-                    {
+                    if (lastModified.before(time.getTime())) {
                         //file is older than a day
                         f.delete();
                     }
@@ -84,11 +89,11 @@ public class FileUtils {
         return true;
     }
 
-    public static  boolean deleteCacheDir() {
+    public static boolean deleteCacheDir() {
         File sdCardRoot = Environment.getExternalStorageDirectory();
         File myDir = new File(sdCardRoot, "/fudfill/runner");
         File[] fileArray = myDir.listFiles();
-        if(fileArray !=null && fileArray.length > 0) {
+        if (fileArray != null && fileArray.length > 0) {
             for (File f : myDir.listFiles()) {
                 if (f.isFile()) {
                     f.delete();
@@ -96,7 +101,7 @@ public class FileUtils {
 
             }
         }
-      // The directory is now empty so delete it
+        // The directory is now empty so delete it
         return myDir.delete();
     }
 }

@@ -33,23 +33,22 @@ public class ServiceHandler {
     public final static int PUT = 3;
 
 
-
-
     public ServiceHandler() {
 
     }
 
     /**
      * Making service call
+     *
      * @url - url to make request
      * @method - http request method
-     * */
+     */
     public String makeServiceCall(String url, int method) {
         return this.makeServiceCall(url, method, null);
     }
 
     public String makeServiceCallWithS(String url, int method,
-                                  String body) {
+                                       String body) {
         HttpParams httpParameters = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(httpParameters, FudfillConfig.timeoutConnection);
         // Set the default socket timeout (SO_TIMEOUT)
@@ -60,14 +59,13 @@ public class ServiceHandler {
         HttpEntity httpEntity = null;
         HttpPut httpput;
 
-        if(method != PUT)
-        {
-            Log.d("Fudfill","Valid only for PUT Requests: "+method);
+        if (method != PUT) {
+            Log.d("Fudfill", "Valid only for PUT Requests: " + method);
             return null;
         }
         try {
             httpput = new HttpPut(url);
-            StringEntity entity=null;
+            StringEntity entity = null;
             if (body != null) {
                 entity = new StringEntity(body, HTTP.UTF_8);
                 entity.setContentType("application/json");
@@ -79,9 +77,7 @@ public class ServiceHandler {
             response = EntityUtils.toString(httpEntity);
             return response;
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -90,10 +86,11 @@ public class ServiceHandler {
 
     /**
      * Making service call
+     *
      * @url - url to make request
      * @method - http request method
      * @params - http request params
-     * */
+     */
     public String makeServiceCall(String url, int method,
                                   List<NameValuePair> params) {
         try {

@@ -37,11 +37,11 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     /**
      * URL to fetch content from during a sync.
-     *
+     * <p/>
      * <p>This points to the Android Developers Blog. (Side note: We highly recommend reading the
      * Android Developer Blog to stay up to date on the latest Android platform developments!)
      */
-   // private static final String FEED_URL = "http://android-developers.blogspot.com/atom.xml";
+    // private static final String FEED_URL = "http://android-developers.blogspot.com/atom.xml";
     private static String url = "http://192.168.1.64:8080/fudfildelivery/updateorder";
 
     /**
@@ -62,7 +62,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Project used when querying content provider. Returns all known fields.
      */
-  private static final String[] PROJECTION = new String[] {
+    private static final String[] PROJECTION = new String[]{
             "ORDER_ID",
             "ORDER_STATUS"};
 
@@ -93,12 +93,12 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
      * done here. Extending AbstractThreadedSyncAdapter ensures that all methods within SyncAdapter
      * run on a background thread. For this reason, blocking I/O and other long-running tasks can be
      * run <em>in situ</em>, and you don't have to set up a separate thread for them.
-     .
-     *
+     * .
+     * <p/>
      * <p>This is where we actually perform any work required to perform a sync.
      * {@link android.content.AbstractThreadedSyncAdapter} guarantees that this will be called on a non-UI thread,
      * so it is safe to peform blocking I/O here.
-     *
+     * <p/>
      * <p>The syncResult argument allows you to pass information back to the method that triggered
      * the sync.
      */
@@ -118,7 +118,7 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
         Cursor c = mContentResolver.query(items, null, null, null, "order_id");
         int count = c.getCount();
         c.moveToFirst();
-        if(count >0) {
+        if (count > 0) {
             StringBuilder strBuilder = new StringBuilder();
             strBuilder.append("{");
             for (int index = 0; index < count; index++) {
@@ -134,21 +134,20 @@ class SyncAdapter extends AbstractThreadedSyncAdapter {
                 strBuilder.append(c.getString(c.getColumnIndex(RunnerProvider.ORDER_STATUS)));
                 strBuilder.append("}");
                 c.moveToNext();
-           }
+            }
             strBuilder.append("}");
-            Log.d("Fudfill","JSON To be synced: "+strBuilder.toString());
+            Log.d("Fudfill", "JSON To be synced: " + strBuilder.toString());
 
-            if(strBuilder.length() > 5) {
+            if (strBuilder.length() > 5) {
 
                 ServiceHandler sh = new ServiceHandler();
 
                 // Making a request to url and getting response
-                String jsonStr = sh.makeServiceCallWithS(url, ServiceHandler.PUT,strBuilder.toString());
+                String jsonStr = sh.makeServiceCallWithS(url, ServiceHandler.PUT, strBuilder.toString());
 
-                if(jsonStr.contains("success"))
-                {
-                    mContentResolver.delete(items,null,null);
-                    Log.d("Fudfill","Deleting the item records");
+                if (jsonStr.contains("success")) {
+                    mContentResolver.delete(items, null, null);
+                    Log.d("Fudfill", "Deleting the item records");
                 }
             }
 

@@ -37,13 +37,13 @@ public class RunnerMapFragment extends Fragment {
     List<Runner> mRunnersList;
     private ArrayList<MarkerOptions> buddyLocOptions = new ArrayList<MarkerOptions>();
     private Bitmap markerImage;
-    private float oldZoom=0;
+    private float oldZoom = 0;
     private GoogleMap gMap;
     private static final int INTERVAL = 25;
     private static final int MAP_ZOOM_LEVEL = 4;
-    private static String TAG="RunnerMapFragment";
+    private static String TAG = "RunnerMapFragment";
 
-    private static String url = "http://"+FudfillConfig.getServerAddr()+FudfillConfig.getRunnersLocationUrl();
+    private static String url = "http://" + FudfillConfig.getServerAddr() + FudfillConfig.getRunnersLocationUrl();
 
     // JSON Node names
     private static final String TAG_RUNNERS = "runners";
@@ -55,41 +55,45 @@ public class RunnerMapFragment extends Fragment {
     private static final String TAG_UPDATEDTIME = "lastupdatedtime";
     private static final String TAG_PHONE_MOBILE = "mobile";
 
-	public RunnerMapFragment() {
+    public RunnerMapFragment() {
 
         mRunnersList = new ArrayList<Runner>();
-	}
-    private boolean initializeMap(){
-        if(gMap == null){
-            MapFragment mRunnerMapFragment = (MapFragment)getFragmentManager().findFragmentById(R.id.runner_map_fragment);
-            gMap =mRunnerMapFragment.getMap();
+    }
+
+    private boolean initializeMap() {
+        if (gMap == null) {
+            MapFragment mRunnerMapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.runner_map_fragment);
+            gMap = mRunnerMapFragment.getMap();
         }
         return gMap != null;
     }
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         /*if(view != null){
            // new GetRunnersLocation().execute(null, null, null);
             return view;
-        }else*/ try{
+        }else*/
+        try {
 
-        view= inflater.inflate(R.layout.fragment_runnermap,
-				container, false);
-        markerImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_runner);
-        if(initializeMap()){
-            new GetRunnersLocation().execute(null, null, null);
+            view = inflater.inflate(R.layout.fragment_runnermap,
+                    container, false);
+            markerImage = BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_runner);
+            if (initializeMap()) {
+                new GetRunnersLocation().execute(null, null, null);
 
+            }
+        } catch (InflateException e) {
         }
-        }catch (InflateException e){}
 
-		return view;
-	}
+        return view;
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (pDialog !=null && pDialog.isShowing()) {
+        if (pDialog != null && pDialog.isShowing()) {
             pDialog.cancel();
         }
     }
@@ -103,9 +107,10 @@ public class RunnerMapFragment extends Fragment {
         view = null;
 
     }*/
+
     /**
      * Async task class to get json by making HTTP call
-     * */
+     */
     private class GetRunnersLocation extends AsyncTask<Void, Void, Void> {
 
         private JSONArray runners;
@@ -129,8 +134,7 @@ public class RunnerMapFragment extends Fragment {
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
 
-            Log.d(TAG,"Response: > " + jsonStr);
-
+            Log.d(TAG, "Response: > " + jsonStr);
 
 
             if (jsonStr != null) {
@@ -184,27 +188,25 @@ public class RunnerMapFragment extends Fragment {
                 pDialog.dismiss();
 
             if (mRunnersList != null && !mRunnersList.isEmpty()) {
-                 for(int i=0;i<mRunnersList.size();i++)
-                 {
-                     Runner tRunner = mRunnersList.get(i);
-                     if(tRunner !=null)
-                     {
-                         Log.d(TAG,"Runner: "+i+" : "+tRunner);
-                         double latitude = Double.parseDouble(tRunner.getLatitude());
-                         double longitude =Double.parseDouble(tRunner.getLongitude());
-                         CameraUpdate runnerPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 7);
-                         gMap.moveCamera(runnerPosition);
-                         gMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).
-                                 title(tRunner.getName()+", "+tRunner.getMobile()).anchor(.5f, .5f).
-                                 icon(BitmapDescriptorFactory.fromBitmap(markerImage)).
-                                 snippet("last updated:"+tRunner.getLastUpdatedtime())
-                            );
-                     }
-                 }
+                for (int i = 0; i < mRunnersList.size(); i++) {
+                    Runner tRunner = mRunnersList.get(i);
+                    if (tRunner != null) {
+                        Log.d(TAG, "Runner: " + i + " : " + tRunner);
+                        double latitude = Double.parseDouble(tRunner.getLatitude());
+                        double longitude = Double.parseDouble(tRunner.getLongitude());
+                        CameraUpdate runnerPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 7);
+                        gMap.moveCamera(runnerPosition);
+                        gMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).
+                                        title(tRunner.getName() + ", " + tRunner.getMobile()).anchor(.5f, .5f).
+                                        icon(BitmapDescriptorFactory.fromBitmap(markerImage)).
+                                        snippet("last updated:" + tRunner.getLastUpdatedtime())
+                        );
+                    }
+                }
 
             } else {
                 // Load the map with the runners location
-                Log.d(TAG,"Runners List is empty ");
+                Log.d(TAG, "Runners List is empty ");
                 CameraUpdate runnerPosition = CameraUpdateFactory.newLatLngZoom(new LatLng(28.6000264, 77.0532981), 13);
                 gMap.moveCamera(runnerPosition);
                 gMap.addMarker(new MarkerOptions().position(new LatLng(28.6000264, 77.0532981)).title("Runner 1").anchor(.5f, .5f).icon(BitmapDescriptorFactory.fromBitmap(markerImage)));

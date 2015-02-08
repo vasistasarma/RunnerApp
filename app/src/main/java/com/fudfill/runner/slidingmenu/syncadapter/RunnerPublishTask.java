@@ -18,67 +18,62 @@ import com.fudfill.runner.slidingmenu.R;
  */
 public class RunnerPublishTask extends AsyncTask<Object, Integer, Integer> {
 
-        Context context;
-        Context appContext;
-        String post_url;
-        String jsonData;
+    Context context;
+    Context appContext;
+    String post_url;
+    String jsonData;
 
     ContentResolver mContentResolver;
     boolean syncResult = false;
     private NotificationManager mNotificationManager;
     private int notificationID = 101;
 
-        @Override
-        protected Integer doInBackground(Object... params) {
-            // TODO Auto-generated method stub
-            this.context = (Context) params[0];
-            post_url = (String) params[1];
-            jsonData = (String) params[2];
+    @Override
+    protected Integer doInBackground(Object... params) {
+        // TODO Auto-generated method stub
+        this.context = (Context) params[0];
+        post_url = (String) params[1];
+        jsonData = (String) params[2];
 
-            syncResult = false;
-            syncResult = syncToServer();
-            return null;
-        }
+        syncResult = false;
+        syncResult = syncToServer();
+        return null;
+    }
 
     @Override
     protected void onPostExecute(Integer integer) {
         displayNotification();
-      }
-
+    }
 
 
     public boolean syncToServer() {
         // Retrieve student records
         String base_url = post_url;
-        Log.d("Fudfill","JSON To be synced: "+jsonData+ post_url);
+        Log.d("Fudfill", "JSON To be synced: " + jsonData + post_url);
 
         ServiceHandler sh = new ServiceHandler();
 
         // Making a request to url and getting response
-        String jsonStr = sh.makeServiceCallWithS(base_url, ServiceHandler.PUT,jsonData);
-        Log.d("Fudfill","JSON To be synced Response: jsonStr");
+        String jsonStr = sh.makeServiceCallWithS(base_url, ServiceHandler.PUT, jsonData);
+        Log.d("Fudfill", "JSON To be synced Response: jsonStr");
 
-        if(jsonStr!=null && jsonStr.contains("success"))
-        {
-           return true;
+        if (jsonStr != null && jsonStr.contains("success")) {
+            return true;
         }
         return false;
     }
 
     protected void displayNotification() {
-        String title="Sync Status";
+        String title = "Sync Status";
         String text;
         Log.i("Start", "notification");
 
       /* Invoking the default notification service */
-        NotificationCompat.Builder  mBuilder =
+        NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context);
-        if(syncResult)
-        {
+        if (syncResult) {
             text = "Updation Success";
-        }
-        else
-        {
+        } else {
             text = "Updation failed";
         }
         mBuilder.setContentTitle(title);
@@ -111,5 +106,5 @@ public class RunnerPublishTask extends AsyncTask<Object, Integer, Integer> {
         mNotificationManager.notify(notificationID, mBuilder.build());
     }
 
-    }
+}
 

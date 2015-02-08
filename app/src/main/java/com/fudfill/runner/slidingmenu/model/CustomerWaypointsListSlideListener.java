@@ -2,6 +2,7 @@ package com.fudfill.runner.slidingmenu.model;
 
 import android.view.MotionEvent;
 import android.view.View;
+
 import java.util.ArrayList;
 
 /**

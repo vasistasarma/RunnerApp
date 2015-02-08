@@ -31,10 +31,9 @@ public class ItemsListFragment extends Fragment {
     private List<CustomerWaypointDetails> wayPoints;
 
     // URL to get contacts JSON
-    private static String url = "http://"+ FudfillConfig.getServerAddr()+"/fudfildelivery/testserver?file=orders";
-   // private static String url = "http://128.199.242.169/fudfildelivery/testserver?file=orders";
+    private static String url = "http://" + FudfillConfig.getServerAddr() + "/fudfildelivery/testserver?file=orders";
+    // private static String url = "http://128.199.242.169/fudfildelivery/testserver?file=orders";
     CustomerOrderListAdapter custOrderAdapter;
-
 
 
     ProgressDialog pDialog;
@@ -60,28 +59,26 @@ public class ItemsListFragment extends Fragment {
     private static final String TAG_ITEM_COUNT = "item_count";
 
 
+    public ItemsListFragment() {
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-
-	public ItemsListFragment() {
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-
-		View rootView = inflater.inflate(R.layout.fragment_items,
-				container, false);
+        View rootView = inflater.inflate(R.layout.fragment_items,
+                container, false);
         initData();
-        ExpandableListView itemList = (ExpandableListView)rootView.findViewById(R.id.customerItemList);
+        ExpandableListView itemList = (ExpandableListView) rootView.findViewById(R.id.customerItemList);
         itemList.setIndicatorBounds(5, 5);
-        custOrderAdapter= new CustomerOrderListAdapter(wayPoints, this.getActivity().getApplicationContext());
-        itemList.setIndicatorBounds(0,20);
+        custOrderAdapter = new CustomerOrderListAdapter(wayPoints, this.getActivity().getApplicationContext());
+        itemList.setIndicatorBounds(0, 20);
         itemList.setAdapter(custOrderAdapter);
-		return rootView;
-	}
+        return rootView;
+    }
+
     //Adding random data for Testing
-    private void initData(){
+    private void initData() {
 
         wayPoints = new ArrayList<CustomerWaypointDetails>();
         /*CustomerWaypointDetails wayPoint1 = createWaypoint("1", "Vasista", "300");
@@ -104,15 +101,17 @@ public class ItemsListFragment extends Fragment {
         wayPoints.add(wayPoint4);*/
         new GetOrdersList().execute(null, null, null);
 
-   }
-    private CustomerWaypointDetails createWaypoint(String order, String name, String price,String address, String phone) {
-        return new CustomerWaypointDetails(order, name, price, address,phone );
     }
+
+    private CustomerWaypointDetails createWaypoint(String order, String name, String price, String address, String phone) {
+        return new CustomerWaypointDetails(order, name, price, address, phone);
+    }
+
     private List<CustomerOrderDetails> createItems(String itemName, int itemQty, int itemPrice) {
         List<CustomerOrderDetails> result = new ArrayList<CustomerOrderDetails>();
 
-        for (int i=0; i < itemQty; i++) {
-            CustomerOrderDetails item = new CustomerOrderDetails(itemName, itemPrice, itemQty*itemPrice);
+        for (int i = 0; i < itemQty; i++) {
+            CustomerOrderDetails item = new CustomerOrderDetails(itemName, itemPrice, itemQty * itemPrice);
             result.add(item);
         }
 
@@ -121,7 +120,7 @@ public class ItemsListFragment extends Fragment {
 
     /**
      * Async task class to get json by making HTTP call
-     * */
+     */
     private class GetOrdersList extends AsyncTask<Void, Void, Void> {
 
         private JSONArray order;
@@ -163,16 +162,16 @@ public class ItemsListFragment extends Fragment {
                     // looping through All orders
                     for (int i = 0; i < order.length(); i++) {
                         JSONObject c = order.getJSONObject(i);
-                        int totalOrderCost =0;
+                        int totalOrderCost = 0;
                         String jsonOrder = c.toString();
 
                         String order_id = c.getString(TAG_ORDER_ID);
                         // Parse String and add to the list
                         parseJsonString(jsonOrder);
 
-                        Log.d("Fudfill"," String: "+jsonOrder);
-                        FileUtils.SaveFileWithText(order_id,jsonOrder);
-                }
+                        Log.d("Fudfill", " String: " + jsonOrder);
+                        FileUtils.SaveFileWithText(order_id, jsonOrder);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -198,84 +197,81 @@ public class ItemsListFragment extends Fragment {
         }
 
 
-
-        public  String parseJsonString(String jsonStr)
-        {
-            String parsedStr=null;
+        public String parseJsonString(String jsonStr) {
+            String parsedStr = null;
             try {
 
                 JSONObject c = new JSONObject(jsonStr);
 
-                    int totalOrderCost =0;
+                int totalOrderCost = 0;
 
-                    String order_id = c.getString(TAG_ORDER_ID);
-                    String name = c.getString(TAG_NAME);
-                    String email = c.getString(TAG_EMAIL);
-                    String address = c.getString(TAG_ADDRESS);
-                    String order_status = c.getString(TAG_ORDER_STATUS);
+                String order_id = c.getString(TAG_ORDER_ID);
+                String name = c.getString(TAG_NAME);
+                String email = c.getString(TAG_EMAIL);
+                String address = c.getString(TAG_ADDRESS);
+                String order_status = c.getString(TAG_ORDER_STATUS);
 
-                    // Location node is JSON Object
-                    JSONObject location = c.getJSONObject(TAG_LOCATION);
-                    String latitude = location.getString(TAG_LATITUDE);
-                    String longitude = location.getString(TAG_LONGITUDE);
-                    // Phone node is JSON Object
-                    JSONObject phone = c.getJSONObject(TAG_PHONE);
-                    String mobile = phone.getString(TAG_PHONE_MOBILE);
-                    //String home = phone.getString(TAG_PHONE_HOME);
-                    //String office = phone.getString(TAG_PHONE_OFFICE);
+                // Location node is JSON Object
+                JSONObject location = c.getJSONObject(TAG_LOCATION);
+                String latitude = location.getString(TAG_LATITUDE);
+                String longitude = location.getString(TAG_LONGITUDE);
+                // Phone node is JSON Object
+                JSONObject phone = c.getJSONObject(TAG_PHONE);
+                String mobile = phone.getString(TAG_PHONE_MOBILE);
+                //String home = phone.getString(TAG_PHONE_HOME);
+                //String office = phone.getString(TAG_PHONE_OFFICE);
 
-                    // tmp hashmap for single contact
-                    HashMap<String, String> OrderMap = new HashMap<String, String>();
+                // tmp hashmap for single contact
+                HashMap<String, String> OrderMap = new HashMap<String, String>();
 
-                    // adding each child node to HashMap key => value
-                    OrderMap.put(TAG_ORDER_ID, order_id);
-                    OrderMap.put(TAG_NAME, name);
-                    OrderMap.put(TAG_EMAIL, email);
-                    OrderMap.put(TAG_PHONE_MOBILE, mobile);
-
-
-                    // Getting JSON Array node
-                    items = c.getJSONArray(TAG_ITEMS);
+                // adding each child node to HashMap key => value
+                OrderMap.put(TAG_ORDER_ID, order_id);
+                OrderMap.put(TAG_NAME, name);
+                OrderMap.put(TAG_EMAIL, email);
+                OrderMap.put(TAG_PHONE_MOBILE, mobile);
 
 
-                    List <CustomerOrderDetails> tCustomerOrderList = new ArrayList<CustomerOrderDetails>();
-
-                    for(int j =0; j<items.length();j++)
-                    {
-                        JSONObject item = items.getJSONObject(j);
-
-                        String item_id = item.getString(TAG_ITEMS_ID);
-                        String item_name = item.getString(TAG_ITEM_NAME);
-                        String item_cost = item.getString(TAG_ITEM_COST);
-                        String item_count = item.getString(TAG_ITEM_COUNT);
-                        totalOrderCost += Integer.parseInt(item_cost)* Integer.parseInt(item_count);
-                        CustomerOrderDetails tOrderItem = new CustomerOrderDetails(item_name,
-                                Integer.parseInt(item_count),Integer.parseInt(item_cost));
-                        tCustomerOrderList.add(tOrderItem);
-
-                    }
-                    CustomerWaypointDetails tCustomerOrder = new CustomerWaypointDetails(order_id,name,
-                            ""+totalOrderCost,address, mobile);
-                    // Set the customer list
-                    tCustomerOrder.setItemList(tCustomerOrderList);
+                // Getting JSON Array node
+                items = c.getJSONArray(TAG_ITEMS);
 
 
-                    wayPoints.add(tCustomerOrder);
+                List<CustomerOrderDetails> tCustomerOrderList = new ArrayList<CustomerOrderDetails>();
 
-                   Log.d("Fudfill"," String: "+c.toString());
-                    parsedStr = c.toString();
+                for (int j = 0; j < items.length(); j++) {
+                    JSONObject item = items.getJSONObject(j);
+
+                    String item_id = item.getString(TAG_ITEMS_ID);
+                    String item_name = item.getString(TAG_ITEM_NAME);
+                    String item_cost = item.getString(TAG_ITEM_COST);
+                    String item_count = item.getString(TAG_ITEM_COUNT);
+                    totalOrderCost += Integer.parseInt(item_cost) * Integer.parseInt(item_count);
+                    CustomerOrderDetails tOrderItem = new CustomerOrderDetails(item_name,
+                            Integer.parseInt(item_count), Integer.parseInt(item_cost));
+                    tCustomerOrderList.add(tOrderItem);
+
+                }
+                CustomerWaypointDetails tCustomerOrder = new CustomerWaypointDetails(order_id, name,
+                        "" + totalOrderCost, address, mobile);
+                // Set the customer list
+                tCustomerOrder.setItemList(tCustomerOrderList);
+
+
+                wayPoints.add(tCustomerOrder);
+
+                Log.d("Fudfill", " String: " + c.toString());
+                parsedStr = c.toString();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             return parsedStr;
         }
 
-        public void parseOrdersFromFile(){
+        public void parseOrdersFromFile() {
 
             File sdCardRoot = Environment.getExternalStorageDirectory();
             File yourDir = new File(sdCardRoot, "/fudfill/runner");
             File[] fileArray = yourDir.listFiles();
-            if(fileArray !=null && fileArray.length > 0) {
+            if (fileArray != null && fileArray.length > 0) {
                 for (File f : yourDir.listFiles()) {
                     if (f.isFile()) {
                         String name = f.getName();

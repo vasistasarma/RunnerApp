@@ -26,34 +26,36 @@ import java.util.List;
 /**
  * Created by Sowmya on 1/4/2015.
  */
-public class CustomerOrderListAdapter extends BaseExpandableListAdapter{
+public class CustomerOrderListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<CustomerWaypointDetails> wayPointsList;
     private int itemLayoutId;
     private int groupLayoutId;
     ProgressDialog pDialog;
     ContentResolver mContentResolver;
-    boolean syncResult=false;
+    boolean syncResult = false;
 
-    public CustomerOrderListAdapter(List<CustomerWaypointDetails>wayPointsList, Context context){
-        this.itemLayoutId=R.layout.customer_order_list;
-        this.groupLayoutId=R.layout.customer_waypoints_list;
-        this.wayPointsList=wayPointsList;
-        this.context=context;
+    public CustomerOrderListAdapter(List<CustomerWaypointDetails> wayPointsList, Context context) {
+        this.itemLayoutId = R.layout.customer_order_list;
+        this.groupLayoutId = R.layout.customer_waypoints_list;
+        this.wayPointsList = wayPointsList;
+        this.context = context;
         mContentResolver = context.getContentResolver();
     }
- @Override
+
+    @Override
     public int getGroupCount() {
         return wayPointsList.size();
     }
-public CustomerOrderListAdapter(Context customerItemList){
-    this.context = customerItemList;
+
+    public CustomerOrderListAdapter(Context customerItemList) {
+        this.context = customerItemList;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
         int size = wayPointsList.get(groupPosition).getItemList().size();
-        System.out.println("Children for Group ["+groupPosition+"] is ["+size+"]");
+        System.out.println("Children for Group [" + groupPosition + "] is [" + size + "]");
         return size;
     }
 
@@ -90,15 +92,15 @@ public CustomerOrderListAdapter(Context customerItemList){
             v = inflater.inflate(R.layout.customer_waypoints_list, parent, false);
         }
 
-        final TextView txtOrderOfDelivery = (TextView)v.findViewById(R.id.customer_waypoint_order);
-        TextView txtWayPointName = (TextView)v.findViewById(R.id.customer_waypoint_name);
+        final TextView txtOrderOfDelivery = (TextView) v.findViewById(R.id.customer_waypoint_order);
+        TextView txtWayPointName = (TextView) v.findViewById(R.id.customer_waypoint_name);
         TextView txtPriceToCollect = (TextView) v.findViewById(R.id.customer_waypoint_price);
-        TextView txtCustomerAddress = (TextView)v.findViewById(R.id.customer_waypoint_address);
-        TextView txtCustomerPhone = (TextView)v.findViewById(R.id.customer_waypoint_phone);
+        TextView txtCustomerAddress = (TextView) v.findViewById(R.id.customer_waypoint_address);
+        TextView txtCustomerPhone = (TextView) v.findViewById(R.id.customer_waypoint_phone);
         txtCustomerAddress.setMovementMethod(new ScrollingMovementMethod());
         txtCustomerAddress.setFocusable(false);
-        final ImageButton imgbtnItemDeliveryStatus = (ImageButton)v.findViewById(R.id.customer_waypoint_delivery_status);
-        ImageButton imgbtnItemNotDelivered = (ImageButton)v.findViewById(R.id.customer_waypoint_not_delivered);
+        final ImageButton imgbtnItemDeliveryStatus = (ImageButton) v.findViewById(R.id.customer_waypoint_delivery_status);
+        ImageButton imgbtnItemNotDelivered = (ImageButton) v.findViewById(R.id.customer_waypoint_not_delivered);
 
         imgbtnItemDeliveryStatus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,28 +111,26 @@ public CustomerOrderListAdapter(Context customerItemList){
                 values.put(RunnerProvider.ORDER_ID,
                         txtOrderOfDelivery.getText().toString());
 
-                values.put(RunnerProvider.ORDER_STATUS,"delivered");
+                values.put(RunnerProvider.ORDER_STATUS, "delivered");
 
                 String[] mProjection =
-                {
-                        RunnerProvider.ORDER_ID,    // Contract class constant for the _ID column name
-                 };
+                        {
+                                RunnerProvider.ORDER_ID,    // Contract class constant for the _ID column name
+                        };
                 String[] mSelectionArgs = {""};
                 String mSelectionClause = RunnerProvider.ORDER_ID + " = ?";
-                mSelectionArgs[0]=txtOrderOfDelivery.getText().toString();
+                mSelectionArgs[0] = txtOrderOfDelivery.getText().toString();
 
                 Cursor findCursor = context.getContentResolver().query(RunnerProvider.CONTENT_URI,
-                        mProjection,mSelectionClause,mSelectionArgs,null);
+                        mProjection, mSelectionClause, mSelectionArgs, null);
 
-                if(findCursor!=null && findCursor.getCount()>0)
-                {
+                if (findCursor != null && findCursor.getCount() > 0) {
                     //Update
                     ContentValues updtvalues = new ContentValues();
-                    updtvalues.put(RunnerProvider.ORDER_STATUS,"delivered");
+                    updtvalues.put(RunnerProvider.ORDER_STATUS, "delivered");
                     context.getContentResolver().update(RunnerProvider.CONTENT_URI,
-                            updtvalues,mSelectionClause,mSelectionArgs);
-                }
-                else {
+                            updtvalues, mSelectionClause, mSelectionArgs);
+                } else {
 
                     Uri uri = context.getContentResolver().insert(
                             RunnerProvider.CONTENT_URI, values);
@@ -157,20 +157,20 @@ public CustomerOrderListAdapter(Context customerItemList){
         imgbtnItemNotDelivered.setFocusable(false);
         txtCustomerPhone.setFocusable(false);
 
-       return v;
+        return v;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         View v = convertView;
-        if (v==null){
-            LayoutInflater inflater= (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v=inflater.inflate(R.layout.customer_order_list, parent, false);
+        if (v == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inflater.inflate(R.layout.customer_order_list, parent, false);
         }
-        CheckBox itemSelected = (CheckBox)v.findViewById(R.id.item_selected);
-        TextView itemName = (TextView)v.findViewById(R.id.item_name);
-        EditText itemQty = (EditText)v.findViewById(R.id.item_qty);
-        EditText itemPrice = (EditText)v.findViewById(R.id.item_price);
+        CheckBox itemSelected = (CheckBox) v.findViewById(R.id.item_selected);
+        TextView itemName = (TextView) v.findViewById(R.id.item_name);
+        EditText itemQty = (EditText) v.findViewById(R.id.item_qty);
+        EditText itemPrice = (EditText) v.findViewById(R.id.item_price);
 
 
         CustomerOrderDetails orderDetails = wayPointsList.get(groupPosition).getItemList().get(childPosition);
@@ -181,7 +181,8 @@ public CustomerOrderListAdapter(Context customerItemList){
 
         return v;
 
-        }
+    }
+
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;

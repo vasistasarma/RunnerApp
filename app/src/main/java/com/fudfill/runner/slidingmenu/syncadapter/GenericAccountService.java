@@ -34,7 +34,7 @@ public class GenericAccountService extends Service {
 
     /**
      * Obtain a handle to the {@link android.accounts.Account} used for sync in this application.
-     *
+     * <p/>
      * <p>It is important that the accountType specified here matches the value in your sync adapter
      * configuration XML file for android.accounts.AccountAuthenticator (often saved in
      * res/xml/syncadapter.xml). If this is not set correctly, you'll receive an error indicating
@@ -43,7 +43,7 @@ public class GenericAccountService extends Service {
      * @param accountType AccountType defined in the configuration XML file for
      *                    android.accounts.AccountAuthenticator (e.g. res/xml/syncadapter.xml).
      * @return Handle to application's account (not guaranteed to resolve unless CreateSyncAccount()
-     *         has been called)
+     * has been called)
      */
     public static Account GetAccount(String accountType) {
         // Note: Normally the account name is set to the user's identity (username or email

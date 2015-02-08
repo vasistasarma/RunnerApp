@@ -30,30 +30,30 @@ import com.google.android.gms.maps.MapFragment;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
-	private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     public GoogleMap gmap;
-    private static final int GPS_ERRORDIALOG_REQUEST=9001;
+    private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 
-	// nav drawer title
-	private CharSequence mDrawerTitle;
+    // nav drawer title
+    private CharSequence mDrawerTitle;
 
-	// used to store app title
-	private CharSequence mTitle;
+    // used to store app title
+    private CharSequence mTitle;
 
-	// slide menu items
-	private String[] navMenuTitles;
-	private TypedArray navMenuIcons;
+    // slide menu items
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
 
-	private ArrayList<NavDrawerItem> navDrawerItems;
-	private NavDrawerListAdapter adapter;
+    private ArrayList<NavDrawerItem> navDrawerItems;
+    private NavDrawerListAdapter adapter;
 
     GPSRunnerTracker gps;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (servicesOK()) {
@@ -138,16 +138,16 @@ public class MainActivity extends Activity {
 
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
-            String runnLocUpd = "{ \"latitude\":\"" + latitude + "\","+
-            "\"longitude\":\"" + longitude + "\","+
-            "\"runner_prof_id\":\"1\","+
-            "\"route_assigned\":\"4\"} ";
-        new RunnerPublishTask().execute(MainActivity.this,
-                "http://" + FudfillConfig.LIVE_SERVER_ADDR  +
-                        FudfillConfig.getRunnerupdateLocUrl(), runnLocUpd);
+            String runnLocUpd = "{ \"latitude\":\"" + latitude + "\"," +
+                    "\"longitude\":\"" + longitude + "\"," +
+                    "\"runner_prof_id\":\"1\"," +
+                    "\"route_assigned\":\"4\"} ";
+            new RunnerPublishTask().execute(MainActivity.this,
+                    "http://" + FudfillConfig.LIVE_SERVER_ADDR +
+                            FudfillConfig.getRunnerupdateLocUrl(), runnLocUpd);
             // \n is for new line
             Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             // can't get location
             // GPS or Network is not enabled
             // Ask user to enable GPS/network in settings
@@ -155,145 +155,139 @@ public class MainActivity extends Activity {
         }
 
         if (savedInstanceState == null) {
-			// on first time display view for first nav item
-			displayView(0);
-		}
-	}
+            // on first time display view for first nav item
+            displayView(0);
+        }
+    }
 
-	/**
-	 * Slide menu item click listener
-	 * */
-	private class SlideMenuClickListener implements
-			ListView.OnItemClickListener {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			// display view for selected nav drawer item
-			displayView(position);
-		}
-	}
+    /**
+     * Slide menu item click listener
+     */
+    private class SlideMenuClickListener implements
+            ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                                long id) {
+            // display view for selected nav drawer item
+            displayView(position);
+        }
+    }
 
-    public boolean servicesOK()
-    {
+    public boolean servicesOK() {
         int isAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if(isAvailable == ConnectionResult.SUCCESS)
-        {
+        if (isAvailable == ConnectionResult.SUCCESS) {
             return true;
-        }
-        else if(GooglePlayServicesUtil.isUserRecoverableError(isAvailable))
-        {
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(isAvailable,this,GPS_ERRORDIALOG_REQUEST);
+        } else if (GooglePlayServicesUtil.isUserRecoverableError(isAvailable)) {
+            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(isAvailable, this, GPS_ERRORDIALOG_REQUEST);
             dialog.show();
-        }
-        else
-        {
-            Toast.makeText(this,"Cannot Connect to Google Play Service", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Cannot Connect to Google Play Service", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// toggle nav drawer on selecting action bar app icon/title
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		// Handle action bar actions click
-		switch (item.getItemId()) {
-		case R.id.action_settings:
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // toggle nav drawer on selecting action bar app icon/title
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle action bar actions click
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-	/* *
-	 * Called when invalidateOptionsMenu() is triggered
-	 */
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// if nav drawer is opened, hide the action items
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
-		return super.onPrepareOptionsMenu(menu);
-	}
+    /* *
+     * Called when invalidateOptionsMenu() is triggered
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // if nav drawer is opened, hide the action items
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
-	/**
-	 * Diplaying fragment view for selected nav drawer list item
-	 * */
-	private void displayView(int position) {
-		// update the main content by replacing fragments
-		Fragment fragment = null;
-		switch (position) {
-		case 0:
-			fragment = new PickupFragment();
-			break;
-		case 1:
-			fragment = new ItemsListFragment();
-			break;
-		case 2:
-			fragment = new RouteMapFragment();
-			break;
-		case 3:
-			fragment = new RunnerMapFragment();
-			break;
-		case 4:
-			fragment = new EscalateFragment();
-			break;
-		case 5:
-			fragment = new WhatsHotFragment();
-			break;
+    /**
+     * Diplaying fragment view for selected nav drawer list item
+     */
+    private void displayView(int position) {
+        // update the main content by replacing fragments
+        Fragment fragment = null;
+        switch (position) {
+            case 0:
+                fragment = new PickupFragment();
+                break;
+            case 1:
+                fragment = new ItemsListFragment();
+                break;
+            case 2:
+                fragment = new RouteMapFragment();
+                break;
+            case 3:
+                fragment = new RunnerMapFragment();
+                break;
+            case 4:
+                fragment = new EscalateFragment();
+                break;
+            case 5:
+                fragment = new WhatsHotFragment();
+                break;
 
-		default:
-			break;
-		}
+            default:
+                break;
+        }
 
-		if (fragment != null) {
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(R.id.frame_container, fragment).commit();
+        if (fragment != null) {
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frame_container, fragment).commit();
 
-			// update selected item and title, then close the drawer
-			mDrawerList.setItemChecked(position, true);
-			mDrawerList.setSelection(position);
-			setTitle(navMenuTitles[position]);
-			mDrawerLayout.closeDrawer(mDrawerList);
-		} else {
-			// error in creating fragment
-			Log.e("MainActivity", "Error in creating fragment");
-		}
-	}
+            // update selected item and title, then close the drawer
+            mDrawerList.setItemChecked(position, true);
+            mDrawerList.setSelection(position);
+            setTitle(navMenuTitles[position]);
+            mDrawerLayout.closeDrawer(mDrawerList);
+        } else {
+            // error in creating fragment
+            Log.e("MainActivity", "Error in creating fragment");
+        }
+    }
 
-	@Override
-	public void setTitle(CharSequence title) {
-		mTitle = title;
-		getActionBar().setTitle(mTitle);
-	}
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
 
-	/**
-	 * When using the ActionBarDrawerToggle, you must call it during
-	 * onPostCreate() and onConfigurationChanged()...
-	 */
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
-	}
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		// Pass any configuration change to the drawer toggls
-		mDrawerToggle.onConfigurationChanged(newConfig);
-	}
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
     @Override
     protected void onDestroy() {
