@@ -85,7 +85,15 @@ public class RunnerMapFragment extends Fragment {
 		return view;
 	}
 
-   /* public void onDestroyView() {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (pDialog !=null && pDialog.isShowing()) {
+            pDialog.cancel();
+        }
+    }
+
+    /* public void onDestroyView() {
         super.onDestroyView();
         MapFragment f = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.runner_map_fragment);
