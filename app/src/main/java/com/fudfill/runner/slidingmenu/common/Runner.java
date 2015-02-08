@@ -10,6 +10,7 @@ public class Runner {
     private String mobile;
     private String latitude;
     private String longitude;
+    private String lastUpdatedtime;
 
     public String getRunnerId() {
         return runnerId;
@@ -57,5 +58,9 @@ public class Runner {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+    public String getLastUpdatedtime(){return lastUpdatedtime;}
+    public void setLastUpdatedtime(String time){
+        this.lastUpdatedtime=time;
     }
 }
