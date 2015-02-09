@@ -32,7 +32,7 @@ public class FudfillConfig {
         if (is_test_mode)
             return TEST_SERVER_ADDR;
         else
-            return "/Fudfill/RESTAPI/routeplan/itemslist/1";
+            return "/Fudfill/RESTAPI/routeplan/itemlist/1";
     }
     public static String getRunnerPlannedMapUrl() {
         Log.d("FudfillConfig", ": Testmode:  " + is_test_mode);
