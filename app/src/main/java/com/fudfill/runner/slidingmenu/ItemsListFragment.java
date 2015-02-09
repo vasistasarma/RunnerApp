@@ -156,8 +156,10 @@ public class ItemsListFragment extends Fragment {
             if(!refreshReq)
             {
                 // Fetch from Local file
-                parseOrdersFromFile();
-                return null;
+                if(parseOrdersFromFile()) {
+                    Log.e("GetOrdersList", "Couldn't get any data from the url");
+                    return null;
+                }
             }
             // Creating service handler class instance
             ServiceHandler sh = new ServiceHandler();
@@ -195,7 +197,7 @@ public class ItemsListFragment extends Fragment {
                     e.printStackTrace();
                 }
             } else {
-                Log.e("ServiceHandler", "Couldn't get any data from the url");
+                Log.e("GetOrdersList", "Couldn't get any data from the url");
                 // Try to read from local file
                 parseOrdersFromFile();
 
@@ -285,7 +287,8 @@ public class ItemsListFragment extends Fragment {
             return parsedStr;
         }
 
-        public void parseOrdersFromFile() {
+        public boolean parseOrdersFromFile() {
+            boolean result=false;
 
             File sdCardRoot = Environment.getExternalStorageDirectory();
             File yourDir = new File(sdCardRoot, "/fudfill/runner");
@@ -298,9 +301,11 @@ public class ItemsListFragment extends Fragment {
                         String jsonStr = FileUtils.GetTextFromFile(name);
                         if (jsonStr != null) {
                             String fileStr = parseJsonString(jsonStr);
+                            result = true;
                             Log.i("JSON From File : ", name + " : " + fileStr);
                         } else {
                             Log.i("file names: ", name + " empty");
+                            result = false;
                         }
 
 
@@ -308,6 +313,7 @@ public class ItemsListFragment extends Fragment {
 
                 }
             }
+            return result;
 
         }
 

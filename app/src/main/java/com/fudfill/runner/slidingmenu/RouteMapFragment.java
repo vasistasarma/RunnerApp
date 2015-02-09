@@ -99,11 +99,11 @@ public class RouteMapFragment extends Fragment {
                 try {
                     if (jsonStr != null) {
                         parseRouteJSon(jsonStr);
+                        return null;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return null;
             }
             // Creating service handler class instance
             ServiceHandler sh = new ServiceHandler();
