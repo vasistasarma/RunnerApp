@@ -27,7 +27,13 @@ public class FudfillConfig {
         else
             return "/Fudfill/RESTAPI/routeplan/search/";
     }
-
+    public static String getRunnersItemslistUrl() {
+        Log.d("FudfillConfig", ": Testmode:  " + is_test_mode);
+        if (is_test_mode)
+            return TEST_SERVER_ADDR;
+        else
+            return "/Fudfill/RESTAPI/routeplan/itemslist/1";
+    }
     public static String getRunnerPlannedMapUrl() {
         Log.d("FudfillConfig", ": Testmode:  " + is_test_mode);
         if (is_test_mode)
