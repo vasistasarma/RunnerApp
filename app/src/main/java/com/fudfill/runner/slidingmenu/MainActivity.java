@@ -7,6 +7,8 @@ import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -18,6 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fudfill.runner.slidingmenu.adapter.NavDrawerListAdapter;
+import com.fudfill.runner.slidingmenu.common.FudLoginDialog;
 import com.fudfill.runner.slidingmenu.common.FudfillConfig;
 import com.fudfill.runner.slidingmenu.location.GPSRunnerTracker;
 import com.fudfill.runner.slidingmenu.model.NavDrawerItem;
@@ -53,6 +56,10 @@ public class MainActivity extends Activity {
     GPSRunnerTracker gps;
     private int mSelectedView;
     private boolean mRefreshView = false;
+    private static boolean mLoginSuccess=false;
+
+    public static int LOGIN_SUCCESS = 0;
+    public static int LOGIN_FAIL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +139,22 @@ public class MainActivity extends Activity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+        if (savedInstanceState == null) {
+            // on first time display view for first nav item
+            displayView(0);
+        }
+
+        if(mLoginSuccess)
+        {
+            onCreateSuccess(savedInstanceState);
+        }
+        else
+        {
+            new FudLoginDialog(this,FudAppHandler).show();
+        }
+    }
+
+    private void onCreateSuccess(Bundle savedInstanceState) {
         // create class object
         gps = new GPSRunnerTracker(MainActivity.this);
 
@@ -155,12 +178,24 @@ public class MainActivity extends Activity {
             // Ask user to enable GPS/network in settings
             gps.showSettingsAlert();
         }
-
-        if (savedInstanceState == null) {
-            // on first time display view for first nav item
-            displayView(0);
-        }
     }
+    public Handler FudAppHandler = new Handler(){
+
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == LOGIN_SUCCESS )
+            {
+                Log.d("Fudfill","Inside Main Thread : Login Success ");
+                mLoginSuccess = true;
+            }
+            else if(msg.what == LOGIN_FAIL )
+            {
+                finish();
+            }
+
+        }
+
+    };
 
     /**
      * Slide menu item click listener

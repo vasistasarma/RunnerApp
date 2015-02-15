@@ -1,0 +1,5 @@
+/Users/praveenthota/AndroidStudioProjects/FudfillProject/RunnerApp/app/build/intermediates/classes/debug
+/Users/praveenthota/AndroidStudioProjects/FudfillProject/RunnerApp/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-b1625ff02d85920a3e36f91c26150cb57d50928d.jar
+/Users/praveenthota/AndroidStudioProjects/FudfillProject/RunnerApp/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-b4b584f1d6850ec51c3820736e90104dfe451382.jar
+/Users/praveenthota/AndroidStudioProjects/FudfillProject/RunnerApp/app/build/intermediates/pre-dexed/debug/classes-79d0e682bead2501abd3aa6128de0c64104c35d1.jar
+/Users/praveenthota/AndroidStudioProjects/FudfillProject/RunnerApp/app/build/intermediates/pre-dexed/debug/classes-31a1d22b23c910b1a8ec9e9d0399b488b99cae3c.jar
