@@ -4,4 +4,4 @@
     android:authorities="com.fudfill.runner.provider.items"
     android:allowParallelSyncs="false"
     android:isAlwaysSyncable="true"
-    android:supportsUploading="true"/><!-- From: file:/Users/praveenthota/AndroidStudioProjects/FudfillProject/RunnerApp/app/src/main/res/xml/sync_adapter.xml -->
+    android:supportsUploading="true"/><!-- From: file:/Users/praveenthota/AndroidStudioProjects/FudfillProject/fudfilllatest/FudfillRunner/RunnerApp/app/src/main/res/xml/sync_adapter.xml -->

@@ -51,21 +51,21 @@ public class FudfillConfig {
         if (is_test_mode)
             return TEST_SERVER_ADDR;
         else
-            return "/Fudfill/RESTAPI/routeplan/itemlist/1";
+            return "/Fudfill/RESTAPI/routeplan/itemlist/"+runnerId;
     }
     public static String getRunnerPlannedMapUrl() {
         Log.d("FudfillConfig", ": Testmode:  " + is_test_mode);
         if (is_test_mode)
             return TEST_SERVER_ADDR;
         else
-            return "/Fudfill/RESTAPI/routeplan/1";
+            return "/Fudfill/RESTAPI/routeplan/"+runnerId;
     }
 
     public static String getRunnerupdateLocUrl() {
         Log.d("FudfillConfig", ": Testmode:  " + is_test_mode);
         if (is_test_mode)
-            return "/Fudfill/RESTAPI/runnerlocation/1";
+            return "/Fudfill/RESTAPI/runnerlocation/"+runnerId;
         else
-            return "/Fudfill/RESTAPI/runnerlocation/1";
+            return "/Fudfill/RESTAPI/runnerlocation/"+runnerId;
     }
 }
