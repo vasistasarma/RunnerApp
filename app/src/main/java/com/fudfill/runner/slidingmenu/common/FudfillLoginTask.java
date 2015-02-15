@@ -12,6 +12,9 @@ import android.util.Log;
 import com.fudfill.runner.slidingmenu.MainActivity;
 import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FudfillLoginTask extends AsyncTask<String, Integer, Integer> {
 	private static String TAG="FudfillLoginTask";
 	ProgressDialog dialog;
@@ -40,7 +43,20 @@ public class FudfillLoginTask extends AsyncTask<String, Integer, Integer> {
         String jsonStr = sh.makeServiceCallWithS(post_url, ServiceHandler.PUT, jsonData);
         Log.d("Fudfill", "JSON To be synced Response: jsonStr");
 
+      //  jsonStr = "{\"result\": \"success\" , \"runnerid\" : \"abc123\"}";
+
         if (jsonStr != null && jsonStr.contains("success")) {
+            try {
+                JSONObject tJson = new JSONObject(jsonStr);
+                String runnerId = tJson.getString("runnerid");
+                Log.d("Fudfill","LoginTask: RunnerId : "+runnerId);
+                FudfillConfig.setRunnerId(runnerId);
+            }
+            catch(JSONException ex)
+            {
+                ex.printStackTrace();
+                return -1;
+            }
             return 0;
         }
         return -1;
