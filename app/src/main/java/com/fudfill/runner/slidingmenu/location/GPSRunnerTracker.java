@@ -30,7 +30,10 @@ public class GPSRunnerTracker extends Service implements LocationListener {
 
     protected LocationManager locationManager;
     private Location m_Location;
-
+    public GPSRunnerTracker()
+    {
+        this.mContext = null;
+    }
     public GPSRunnerTracker(Context context) {
         this.mContext = context;
         m_Location = getLocation();

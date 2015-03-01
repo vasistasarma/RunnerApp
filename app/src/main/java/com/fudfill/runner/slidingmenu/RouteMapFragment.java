@@ -93,6 +93,7 @@ public class RouteMapFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... arg0) {
             String jsonStr=null;
+            /*
             if(!refreshReq)
             {
                 jsonStr = FileUtils.GetTextFromFile("route.txt");
@@ -104,12 +105,12 @@ public class RouteMapFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
             // Creating service handler class instance
             ServiceHandler sh = new ServiceHandler();
 
             // Making a request to url and getting response
-            jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
+                jsonStr = sh.makeServiceCall(url, ServiceHandler.GET);
 
             Log.d(TAG, "Response: > " + jsonStr);
 

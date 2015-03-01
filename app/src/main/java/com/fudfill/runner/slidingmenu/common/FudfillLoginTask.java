@@ -12,6 +12,7 @@ import android.util.Log;
 import com.fudfill.runner.slidingmenu.MainActivity;
 import com.fudfill.runner.slidingmenu.syncadapter.ServiceHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,11 +32,12 @@ public class FudfillLoginTask extends AsyncTask<String, Integer, Integer> {
     @Override
     protected Integer doInBackground(String... params) {
         // TODO Auto-generated method stub
+        JSONArray userDetails;
         ServiceHandler sh = new ServiceHandler();
         String username = (String) params[0];
         String password = (String) params[1];
         String post_url = "http://" + FudfillConfig.getServerAddr() +
-                FudfillConfig.getLoginUrl();
+                FudfillConfig.getLoginUrl()+"/"+username;
         String jsonData = "{ \"username\" : \"" + username + "\" , \"password\" : \"" + password + "\"}";
 
         // Making a request to url and getting response
@@ -47,9 +49,17 @@ public class FudfillLoginTask extends AsyncTask<String, Integer, Integer> {
         if (jsonStr != null && jsonStr.contains("success")) {
             try {
                 JSONObject tJson = new JSONObject(jsonStr);
-                String runnerId = tJson.getString("runnerid");
-                Log.d("Fudfill", "LoginTask: RunnerId : " + runnerId);
-                FudfillConfig.setRunnerId(runnerId);
+                userDetails = tJson.getJSONArray("users");
+
+                for (int i = 0; i < userDetails.length(); i++) {
+                    JSONObject c = userDetails.getJSONObject(i);
+                    String userId = c.getString("user_id");
+                    String userEmail = c.getString("user_email");
+                    String userContact = c.getString("user_contact_no");
+                    Log.d("Fudfill", "LoginTask: RunnerId : " + userId);
+                    FudfillConfig.setRunnerId(userId);
+                    }
+
             } catch (JSONException ex) {
                 ex.printStackTrace();
                 return -1;

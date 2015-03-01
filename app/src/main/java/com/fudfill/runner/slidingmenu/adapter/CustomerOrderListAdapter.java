@@ -156,6 +156,7 @@ public class CustomerOrderListAdapter extends BaseExpandableListAdapter {
         imgbtnItemDeliveryStatus.setFocusable(false);
         imgbtnItemNotDelivered.setFocusable(false);
         txtCustomerPhone.setFocusable(false);
+        txtCustomerAddress.setFocusable(false);
 
         return v;
     }

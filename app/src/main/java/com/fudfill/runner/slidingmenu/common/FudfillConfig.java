@@ -6,8 +6,8 @@ import android.util.Log;
  * Created by praveenthota on 2/1/15.
  */
 public class FudfillConfig {
-    public final static boolean is_test_mode = true;
-    public final static String TEST_SERVER_ADDR = "192.168.1.64:8080";
+    public final static boolean is_test_mode = false;
+    public final static String TEST_SERVER_ADDR = "192.168.1.13:80";
     public final static String LIVE_SERVER_ADDR = "104.155.226.254:80";
     public final static int timeoutConnection = 5000;
     public final static int timeoutSocket = 5000;
@@ -32,9 +32,9 @@ public class FudfillConfig {
     public static String getLoginUrl() {
         Log.d("FudfillConfig", ": Testmode:  " + is_test_mode);
         if (is_test_mode)
-            return "/Fudfill/RESTAPI/login";
+            return "/Fudfill/RESTAPI/user/login";
         else
-            return "/Fudfill/RESTAPI/login";
+            return "/Fudfill/RESTAPI/user/login";
     }
 
     public static String getRunnersLocationUrl() {
